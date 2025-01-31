@@ -1,42 +1,104 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Light Theme (Default) */
+:root {
+  --primary-color: #CDB110;
+  /* Gold */
+  --secondary-color: #1A2A6C;
+  /* Deep Blue */
+  --background-color: #FAF5E4;
+  /* Soft Off-White */
+  --text-color: #333333;
+  /* Dark Charcoal */
+  --border-color: #EAEAEA;
+  /* Light Gray */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Dark Theme */
+[data-theme="dark"] {
+  --primary-color: #A88E2A;
+  /* Deep Gold */
+  --secondary-color: #0D1B42;
+  /* Midnight Blue */
+  --background-color: #101010;
+  /* Rich Black */
+  --text-color: #E3C770;
+  /* Soft Gold */
+  --border-color: #BEBEBE;
+  /* Warm Gray */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* General Styles */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
-.card {
-  padding: 2em;
+/* Navigation Bar */
+.nav-bar {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--primary-color);
+  border-bottom: 2px solid var(--border-color);
 }
 
-.read-the-docs {
-  color: #888;
+.nav-bar a {
+  text-decoration: none;
+  color: var(--secondary-color);
+  font-weight: bold;
+}
+
+.nav-bar a.active {
+  color: var(--text-color);
+  border-bottom: 2px solid var(--text-color);
+}
+
+.nav-bar button {
+  margin-left: auto;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.nav-bar button:hover {
+  background-color: var(--text-color);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background-color: var(--secondary-color);
+}
+
+.theme-toggle.light-mode {
+  background-color: #cdb110;
+  color: white;
+}
+
+.theme-toggle.light-mode:hover {
+  background-color: #e1c210;
+}
+
+.theme-toggle.dark-mode {
+  background-color: #444;
+  color: #f9c74f;
+}
+
+.theme-toggle.dark-mode:hover {
+  background-color: #555;
 }

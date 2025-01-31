@@ -16,10 +16,19 @@ The MEGGA frontend is built with React and Vite, providing a user-friendly inter
 
 ## **Project Structure**
 
-megga-frontend/  
-- public/  
-  - vite.svg (Default Vite logo)  
+megga-frontend/
 - src/  
+  - components/  
+    - NavBar.jsx (Navigation bar)  
+  - pages/  
+    - About.jsx  
+    - Dashboard.jsx  
+    - Login.jsx  
+    - SignOut.jsx  
+    - NotFound.jsx  
+    - RedirectHandler.jsx  
+  - routes/  
+    - ProtectedRoute.jsx (Route protection logic)  
   - services/  
     - api.js (Axios instance and API functions)  
   - App.jsx (Main application logic)  
@@ -85,7 +94,7 @@ Install the required dependencies for the project:
 
 Start the local development server:
 
-    npm run dev
+    npm run
 
 The application will be available at `http://localhost:5173`.
 
@@ -105,8 +114,48 @@ The frontend communicates with the MEGGA backend to access the following endpoin
 
 ### **User Routes**
 
-- `GET /api/users`: Retrieve a list of all users.  
-- `POST /api/users`: Create a new user.
+- `GET /users`: Retrieve a list of all users.  
+- `POST /users`: Create a new user.
+
+### Data Routes
+
+- `GET /data`: Retrieve all data points.  
+- `GET /data/{id}`: Retrieve a specific data point by ID.  
+- `POST /data`: Create a new data point.  
+- `PUT /data/{id}`: Update a specific data point.  
+- `DELETE /data/{id}`: Delete a data point.
+
+### Threshold Routes
+
+- `GET /thresholds`: Retrieve all thresholds.  
+- `GET /thresholds/{id}`: Retrieve a specific threshold by ID.  
+- `POST /thresholds`: Create a new threshold.  
+- `PUT /thresholds/{id}`: Update a specific threshold.  
+- `DELETE /thresholds/{id}`: Delete a threshold.
+
+### Notification Routes
+
+- `GET /notifications`: Retrieve all notifications.  
+- `GET /notifications/{id}`: Retrieve a specific notification by ID.  
+- `POST /notifications`: Create a new notification.  
+- `PUT /notifications/{id}`: Update a notification.  
+- `DELETE /notifications/{id}`: Delete a notification.
+
+### Recipient Routes
+
+- `GET /recipients`: Retrieve all recipients.  
+- `GET /recipients/{id}`: Retrieve a specific recipient by ID.  
+- `POST /recipients`: Create a new recipient.  
+- `PUT /recipients/{id}`: Update a recipient.  
+- `DELETE /recipients/{id}`: Delete a recipient.
+
+### Threshold Recipient Routes
+
+- `GET /threshold_recipients`: Retrieve all threshold recipients.  
+- `GET /threshold_recipients/{threshold_id}/{recipient_id}`: Retrieve a specific threshold recipient.  
+- `POST /threshold_recipients`: Create a new threshold recipient.  
+- `PUT /threshold_recipients/{threshold_id}/{recipient_id}`: Update a threshold recipient.  
+- `DELETE /threshold_recipients/{threshold_id}/{recipient_id}`: Delete a threshold recipient.
 
 ---
 

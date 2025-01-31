@@ -1,75 +1,75 @@
 import { useAuth } from "react-oidc-context";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
+import { fetchUsers, createUser } from "./services/api";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import NavBar from "./components/NavBar";
+import About from "./pages/About";
+import RedirectHandler from "./pages/RedirectHandler";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import SignOut from "./pages/SignOut";
+import NotFound from "./pages/NotFound";
+import "./App.css";
 
 function App() {
   const auth = useAuth();
+  const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-  const signOutRedirect = () => {
-    const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID;
-    const logoutUri = import.meta.env.VITE_COGNITO_LOGOUT_URI;
-    const cognitoDomain = import.meta.env.VITE_COGNITO_DOMAIN;
-    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(
-      logoutUri
-    )}`;
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
-  // Function to save user to the backend
+  // Store token when user logs in
+  useEffect(() => {
+    if (auth.isAuthenticated && auth.user?.access_token) {
+      localStorage.setItem("auth_token", auth.user.access_token);
+    }
+  }, [auth.isAuthenticated, auth.user?.access_token]);
+
+  // Redirect from login to dashboard
+  useEffect(() => {
+    if (auth.isAuthenticated && window.location.pathname === "/login") {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [auth.isAuthenticated, navigate]);
+
   const saveUserToBackend = useCallback(async () => {
     if (auth.isAuthenticated && auth.user?.profile && auth.user.access_token) {
-      const user = {
-        email: auth.user.profile.email,
-        first_name: auth.user.profile.given_name,
-        last_name: auth.user.profile.family_name,
-      };
-
       try {
-        const response = await fetch(`${API_BASE_URL}/api/users`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${auth.user.access_token}`,
-          },
-          body: JSON.stringify(user),
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to save user to the backend");
-        }
-
-        console.log("User saved to backend successfully.");
-      } catch (error) {
-        console.error("Error saving user to backend:", error);
+        await createUser({
+          email: auth.user.profile.email,
+          first_name: auth.user.profile.given_name,
+          last_name: auth.user.profile.family_name,
+        }, auth.user.access_token);
+      } catch (err) {
+        setError(err.message);
       }
     }
-  }, [auth.isAuthenticated, auth.user?.profile, auth.user?.access_token, API_BASE_URL]);
+  }, [auth.isAuthenticated, auth.user?.profile, auth.user?.access_token]);
 
-  // Function to fetch user data from the backend
   const fetchUserData = useCallback(async () => {
     if (auth.isAuthenticated && auth.user?.access_token) {
+      setLoading(true);
       try {
-        console.log("Fetching user data...");
-        const response = await fetch(`${API_BASE_URL}/api/users`, {
-          headers: {
-            Authorization: `Bearer ${auth.user?.access_token}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch: ${response.status}`);
-        }
-
-        const data = await response.json();
+        const { data } = await fetchUsers(auth.user.access_token);
         setUserData(data);
-        console.log("User data fetched:", data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
     }
-  }, [API_BASE_URL, auth.isAuthenticated, auth.user?.access_token]);
+  }, [auth.isAuthenticated, auth.user?.access_token]);
 
+  // Fetch user data after login
   useEffect(() => {
     if (auth.isAuthenticated) {
       saveUserToBackend();
@@ -77,40 +77,30 @@ function App() {
     }
   }, [auth.isAuthenticated, saveUserToBackend, fetchUserData]);
 
-  if (auth.isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (auth.error) {
-    return <div>Encountering error... {auth.error.message}</div>;
-  }
-
-  if (auth.isAuthenticated) {
-    return (
-      <div>
-        <pre>Hello, {auth.user?.profile.given_name} {auth.user?.profile.family_name}!</pre>
-
-        <div>
-          <h3>Fetched User Data:</h3>
-          {userData ? (
-            <pre>{JSON.stringify(userData, null, 2)}</pre>
-          ) : (
-            <p>Loading user data...</p>
-          )}
-        </div>
-
-        <button onClick={() => auth.removeUser()}>Sign out</button>
-      </div>
-    );
-  }
-
-
   return (
-    <div style={{ textAlign: "center", marginTop: "20%" }}>
-      <h1>Welcome to MEGGA</h1>
-      <button onClick={() => auth.signinRedirect()}>Sign in</button>
-      <button onClick={() => signOutRedirect()}>Sign out</button>
-    </div>
+    <>
+      <NavBar toggleTheme={toggleTheme} theme={theme} />
+      <Routes>
+        <Route path="/" element={<About />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/login" element={!auth.isAuthenticated ? <Login /> : <Navigate to="/dashboard" replace />} />
+        <Route path="/auth-redirect" element={<RedirectHandler />} />
+        <Route
+          path="/dashboard"
+          element={
+            auth.isAuthenticated ? (
+              <ProtectedRoute>
+                <Dashboard userData={userData} loading={loading} error={error} />
+              </ProtectedRoute>
+            ) : (
+              <Navigate to="/about" replace />
+            )
+          }
+        />
+        <Route path="/signout" element={<SignOut />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
 }
 
