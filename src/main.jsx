@@ -22,7 +22,6 @@ const cognitoAuthConfig = {
   },
 };
 
-// Load Theme from Local Storage
 document.documentElement.setAttribute("data-theme", localStorage.getItem("theme") || "light");
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

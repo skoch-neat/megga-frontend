@@ -1,7 +1,7 @@
 import { useAuth } from "react-oidc-context";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
-import { fetchUsers, createUser } from "./services/api";
+import { createUser, fetchUserByEmail } from "./services/api";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import NavBar from "./components/NavBar";
 import About from "./pages/About";
@@ -15,9 +15,10 @@ import "./App.css";
 function App() {
   const auth = useAuth();
   const navigate = useNavigate();
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const USER_ID_ERROR_MESSAGE = "Unable to retrieve user ID. You may not be able to view, create, or edit thresholds.";
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   const toggleTheme = () => {
@@ -27,14 +28,12 @@ function App() {
     localStorage.setItem("theme", newTheme);
   };
 
-  // Store token when user logs in
   useEffect(() => {
     if (auth.isAuthenticated && auth.user?.access_token) {
       localStorage.setItem("auth_token", auth.user.access_token);
     }
   }, [auth.isAuthenticated, auth.user?.access_token]);
 
-  // Redirect from login to dashboard
   useEffect(() => {
     if (auth.isAuthenticated && window.location.pathname === "/login") {
       navigate("/dashboard", { replace: true });
@@ -50,35 +49,40 @@ function App() {
           last_name: auth.user.profile.family_name,
         }, auth.user.access_token);
       } catch (err) {
-        setError(err.message);
+        console.error("Error saving user to backend:", err);
+        setError(USER_ID_ERROR_MESSAGE);
       }
     }
   }, [auth.isAuthenticated, auth.user?.profile, auth.user?.access_token]);
 
-  const fetchUserData = useCallback(async () => {
-    if (auth.isAuthenticated && auth.user?.access_token) {
-      setLoading(true);
+  const fetchUserId = useCallback(async () => {
+    if (auth.isAuthenticated && auth.user?.profile?.email) {
       try {
-        const { data } = await fetchUsers(auth.user.access_token);
-        setUserData(data);
+        const response = await fetchUserByEmail(auth.user.profile.email);
+        if (response.data && response.data.user_id) {
+          setUserId(response.data.user_id);
+        }
       } catch (err) {
-        setError(err.message);
+        console.error("Error fetching user ID:", err);
+        setError(USER_ID_ERROR_MESSAGE);
       } finally {
         setLoading(false);
       }
+    } else {
+      setLoading(false);
     }
-  }, [auth.isAuthenticated, auth.user?.access_token]);
+  }, [auth.isAuthenticated, auth.user?.profile?.email]);
 
-  // Fetch user data after login
   useEffect(() => {
     if (auth.isAuthenticated) {
       saveUserToBackend();
-      fetchUserData();
+      fetchUserId();
     }
-  }, [auth.isAuthenticated, saveUserToBackend, fetchUserData]);
+  }, [auth.isAuthenticated, saveUserToBackend, fetchUserId]);
 
   return (
     <>
+      {error && <div className="error-message">Error: {error}</div>}
       <NavBar toggleTheme={toggleTheme} theme={theme} />
       <Routes>
         <Route path="/" element={<About />} />
@@ -88,9 +92,11 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            auth.isAuthenticated ? (
+            auth.isLoading || loading ? (
+              <h2>Loading...</h2>
+            ) : auth.isAuthenticated ? (
               <ProtectedRoute>
-                <Dashboard userData={userData} loading={loading} error={error} />
+                <Dashboard userId={userId} />
               </ProtectedRoute>
             ) : (
               <Navigate to="/about" replace />

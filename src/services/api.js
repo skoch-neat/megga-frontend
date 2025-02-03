@@ -7,17 +7,19 @@ const API = axios.create({
     }
 });
 
-// ✅ Attach authorization token to requests if available
 API.interceptors.request.use(config => {
     const token = localStorage.getItem("auth_token");
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      console.warn("No auth token found. Requests may fail with 401 Unauthorized.");
     }
     return config;
 }, error => Promise.reject(error));
 
 /** User Endpoints */
 export const fetchUsers = () => API.get('/users');
+export const fetchUserByEmail = (email) => API.get(`/users/email/${email}`);
 export const createUser = (userData) => API.post('/users', userData);
 
 /** Data Endpoints */
@@ -29,7 +31,7 @@ export const deleteData = (id) => API.delete(`/data/${id}`);
 
 /** Threshold Endpoints */
 export const fetchThresholds = () => API.get('/thresholds');
-export const fetchThresholdById = (id) => API.get(`/thresholds/${id}`);
+export const fetchThresholdById = (userId) => API.get(`/thresholds/${userId}`);
 export const createThreshold = (thresholdData) => API.post('/thresholds', thresholdData);
 export const updateThreshold = (id, thresholdData) => API.put(`/thresholds/${id}`, thresholdData);
 export const deleteThreshold = (id) => API.delete(`/thresholds/${id}`);
