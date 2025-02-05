@@ -22,11 +22,10 @@ const cognitoAuthConfig = {
   },
 };
 
-document.documentElement.setAttribute("data-theme", localStorage.getItem("theme") || "light");
+const initialTheme = localStorage.getItem("theme") || "light";
+document.documentElement.setAttribute("data-theme", initialTheme);
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-
-root.render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider {...cognitoAuthConfig}>
       <BrowserRouter>
