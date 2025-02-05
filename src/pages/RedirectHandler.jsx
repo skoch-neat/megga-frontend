@@ -1,14 +1,13 @@
 import { useEffect } from "react";
-import { useAuth } from "react-oidc-context";
-import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const RedirectHandler = () => {
-  const auth = useAuth();
-  const navigate = useNavigate();
+  const { auth, navigate } = useAuthContext();
 
   useEffect(() => {
-    if (auth.isLoading) return;
-    navigate(auth.isAuthenticated ? "/dashboard" : "/about", { replace: true });
+    if (!auth.isLoading) {
+      navigate(auth.isAuthenticated ? "/dashboard" : "/about", { replace: true });
+    }
   }, [auth.isAuthenticated, auth.isLoading, navigate]);
 
   return <h1>Processing login...</h1>;

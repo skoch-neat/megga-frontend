@@ -1,26 +1,22 @@
-import { useAuth } from "react-oidc-context";
 import { useEffect } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const SignOut = () => {
-  const auth = useAuth();
+  const { auth } = useAuthContext();
 
   useEffect(() => {
-    const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID;
-    const logoutUri = import.meta.env.VITE_COGNITO_LOGOUT_URI;
-    const cognitoDomain = import.meta.env.VITE_COGNITO_DOMAIN;
-
-    if (!clientId || !logoutUri || !cognitoDomain) {
-      console.error("Missing Cognito configuration. Check your .env file.");
-      return;
-    }
-
     auth.removeUser();
     localStorage.removeItem("auth_token");
 
-    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
-  }, []);
+    const { VITE_COGNITO_CLIENT_ID, VITE_COGNITO_LOGOUT_URI, VITE_COGNITO_DOMAIN } = import.meta.env;
+    if (VITE_COGNITO_CLIENT_ID && VITE_COGNITO_LOGOUT_URI && VITE_COGNITO_DOMAIN) {
+      window.location.href = `${VITE_COGNITO_DOMAIN}/logout?client_id=${VITE_COGNITO_CLIENT_ID}&logout_uri=${encodeURIComponent(VITE_COGNITO_LOGOUT_URI)}`;
+    } else {
+      console.error("❌ Missing Cognito configuration.");
+    }
+  }, [auth]);
 
-  return <div className="logout-container"><h1>Signing out...</h1></div>;
+  return <h1>Signing out...</h1>;
 };
 
 export default SignOut;

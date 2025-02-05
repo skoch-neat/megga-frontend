@@ -1,16 +1,21 @@
-import { useAuth } from "react-oidc-context";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
-const Login = () => {
-  const auth = useAuth();
+const LogIn = () => {
+  const { auth } = useAuthContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!auth.isAuthenticated && !auth.isLoading) {
-      auth.signinRedirect();
+    if (auth.isAuthenticated) {
+      navigate("/dashboard", { replace: true });
+    } else if (!auth.isLoading) {
+      console.log("Redirecting to login..."); // ✅ Debugging line to confirm function is running
+      auth.signinRedirect().catch((err) => console.error("Login Redirect Error:", err));
     }
-  }, [auth.isAuthenticated, auth.isLoading]);
+  }, [auth.isAuthenticated, auth.isLoading, auth.signinRedirect, navigate]);
 
-  return <div className="login-container"><h1>Redirecting to Login...</h1></div>;
+  return <h1>Redirecting...</h1>;
 };
 
-export default Login;
+export default LogIn;
