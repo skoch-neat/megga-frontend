@@ -2,13 +2,10 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
 
 const ProtectedRoute = ({ children }) => {
-  const auth = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
 
-  if (!auth.isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
-
-  return children;
+  if (isLoading) return <p>Loading...</p>; // ✅ Prevents redirect before auth is determined
+  return isAuthenticated ? children : <Navigate to="/about" replace />;
 };
 
 export default ProtectedRoute;
