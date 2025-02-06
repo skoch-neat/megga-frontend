@@ -8,6 +8,16 @@ export const useAuthContext = () => {
   const navigate = useNavigate();
   const [userId, setUserId] = useState(null);
 
+  const retry = async (fn, retries, delay = 1000) => {
+    try {
+      return await fn();
+    } catch (error) {
+      if (retries === 0) throw error;
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      return retry(fn, retries - 1, delay * 2);
+    }
+  };
+
   useEffect(() => {
     if (!auth.isAuthenticated || !auth.user?.profile) return;
 
@@ -16,18 +26,22 @@ export const useAuthContext = () => {
     localStorage.setItem("auth_token", token);
 
     (async () => {
+      let retries = 3;
       try {
-        const { data } = await apiService.get("userByEmail", email);
+        const { data } = await retry(() => apiService.get("userByEmail", email), retries);
         setUserId(data?.user_id ?? null);
 
         if (!data?.user_id) {
-          await apiService.post("users", { email, firstName, lastName });
-          const newUser = await apiService.get("userByEmail", email);
+          const newUser = await retry(async () => {
+            await apiService.post("users", { email, firstName, lastName });
+            return apiService.get("userByEmail", email);
+          }, retries);
           setUserId(newUser.data.user_id);
         }
       } catch (error) {
         console.error("❌ Authentication error:", error);
       }
+      throw new Error("Failed to authenticate user");
     })();
   }, [auth.isAuthenticated, auth.user]);
 
