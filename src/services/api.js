@@ -5,14 +5,16 @@ const API = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
+let hasWarnedAboutToken = false;
+
 API.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("auth_token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-    } else if (!window.hasWarnedAboutToken) {
+    } else if (!hasWarnedAboutToken) {
       console.warn("No auth token found. Requests may fail with 401 Unauthorized.");
-      window.hasWarnedAboutToken = true;
+      hasWarnedAboutToken = true;
     }
     return config;
   },
