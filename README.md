@@ -1,25 +1,49 @@
 # MEGGA (Frontend)
 
 ## **Project Overview**
-MEGGA (Monitoring Economic Goods & Government Advocacy) is designed to automate political advocacy by monitoring changes in common household goods and economic indicators as reported by the **Bureau of Labor Statistics (BLS) API**. Users can create **thresholds**, and when these are triggered, emails are automatically sent to their **specified political representatives**. Users can also opt-in to receive an email notification when a threshold is met, encouraging further advocacy efforts.
+MEGGA (Monitoring Economic Goods & Government Advocacy) is designed to automate political advocacy by monitoring changes in common household goods and economic indicators as reported by the Bureau of Labor Statistics API. Users can create thresholds, and when these are triggered, emails are automatically sent to their specified political representatives. Users can also opt in to receive an email notification when a threshold is met, encouraging further advocacy efforts.
 
 ### **Proof of Concept & Security Considerations**
-This project is a **proof of concept**, meaning that the full email automation system is not configured to send emails to actual government representatives at this stage. Due to security and spam concerns, all threshold-triggered emails are sent to **Testmail.app** rather than directly to representatives. This allows safe testing of the notification system without risk of abuse.
+This project is a **proof of concept**, meaning that the full email automation system is not configured to send emails to actual government representatives. Due to security and spam concerns, all threshold-triggered emails are handled through Testmail.app rather than directly to representatives. This allows safe testing of the notification system without risk of abuse.
 
 The MEGGA frontend is built with React and Vite, providing a user-friendly interface for authentication, data visualization, and threshold management. This application interacts with the MEGGA backend for user data and threshold updates, and it uses AWS Cognito for secure authentication.
-
-
 
 ---
 
 ## Key Features
 
-- **User Authentication**: Login and token management via AWS Cognito.
-- **User Management**: Save user profiles to the backend and fetch user data.
-- **Threshold Management**: Communicates with the MEGGA backend for CRUD operations.
-- **Recipient Notifications** for threshold breaches.
-- **Dark Mode Support**
+- **Automated Political Advocacy**: Notify elected representatives when economic thresholds are triggered.
+- **User Authentication**: Secure login and token management via AWS Cognito.
+- **Threshold Management**: Create, edit, and delete thresholds tied to economic indicators.
+- **Recipient Notifications**: Users can opt to be notified when their thresholds trigger an email.
+- **Dark Mode Support**: Seamlessly toggle between light and dark themes.
+- **Responsive Interface**: Designed for ease of use across devices.
+- **Comprehensive API Integration**: Connects to backend for real-time data management.
 - **Responsive Interface**: Intuitive and minimal design.
+
+---
+
+## **API Endpoints**
+The MEGGA frontend interacts with the backend via the following endpoints:
+
+### **User Endpoints**
+- `GET /users` - Retrieve all users.
+- `POST /users` - Create a new user.
+- `GET /users/{email}` - Retrieve a user by email.
+
+### **Data Endpoints**
+- `GET /data` - Retrieve all available economic indicators.
+- `GET /data/{id}` - Retrieve specific economic data.
+
+### **Threshold Endpoints**
+- `GET /users/{id}/thresholds` - Retrieve thresholds set by a specific user.
+- `POST /thresholds` - Create a new threshold.
+- `PUT /thresholds/{id}` - Update an existing threshold.
+- `DELETE /thresholds/{id}` - Delete a threshold.
+
+### **Notification & Recipients Endpoints**
+- `GET /recipients` - Retrieve a list of recipients.
+- `GET /thresholds/{id}/recipients` - Retrieve recipients for a specific threshold.
 
 ---
 
@@ -30,6 +54,7 @@ megga-frontend/
 ├── src/
 │   ├── components/                # Reusable UI components
 │   │   ├── Button.jsx             # Custom button component
+│   │   ├── Emoji.jsx              # Emoji helper for accessibility
 │   │   ├── FormInput.jsx          # Input field component
 │   │   ├── Message.jsx            # Displays error/success messages
 │   │   ├── NavBar.css             # Styling for navigation bar
@@ -71,13 +96,33 @@ megga-frontend/
 
 ---
 
+## **Deployment**
+
+This project is deployed using **AWS Amplify**.
+
+### Steps to Deploy:
+1. **Push Changes to GitHub**
+```sh
+git add .
+git commit -m "Deploying latest changes"
+git push origin main
+```
+2. **Go to AWS Amplify Console**
+3. **Connect Your GitHub Repository**
+4. **Configure Build Settings (Default React Preset is fine)**
+5. **Deploy & Monitor Build Process**
+6. **Once deployed, your app will be live at:** `https://your-app.amplifyapp.com`
+
+---
+
 ## **Setup Instructions**
 
 ### **1. Prerequisites**
 
 Ensure you have the following installed:
-- Node.js (16.x or higher)
-- npm (8.x or higher)
+- **Node.js** (16.x or higher)
+- **npm** (8.x or higher)
+- **Git** (for version control)
 
 ---
 
@@ -112,27 +157,25 @@ Copy the provided `.env.example` file and configure your variables:
 
 ---
 
-## **API Endpoints**
+### **4. Install Dependencies**
 
-The frontend interacts with the MEGGA backend using the following endpoints:
+Install the required dependencies:
 
-### **User Endpoints**
-- `GET /users` - Retrieve a list of all users.
-- `GET /users/{email}` - Retrieve a user by email.
-- `POST /users` - Create a new user.
+```sh
+npm install
+```
 
-### **Threshold Endpoints**
-- `GET /users/{id}/thresholds` - Retrieve all thresholds for a user.
-- `GET /thresholds/{id}` - Retrieve a specific threshold.
-- `POST /thresholds` - Create a new threshold.
-- `PUT /thresholds/{id}` - Update an existing threshold.
-- `DELETE /thresholds/{id}` - Delete a specific threshold.
+---
 
-### **Recipient Endpoints**
-- `GET /recipients` - Retrieve all recipients.
+### **5. Run the Development Server**
 
-### **Data Endpoints**
-- `GET /data` - Retrieve all data items.
+Start the local development server:
+
+```sh
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`.
 
 ---
 
