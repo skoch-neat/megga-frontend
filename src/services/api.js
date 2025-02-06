@@ -10,7 +10,6 @@ API.interceptors.request.use(
     const token = localStorage.getItem("auth_token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      // console.log("JWT Token:", token);
     } else if (!window.hasWarnedAboutToken) {
       console.warn("No auth token found. Requests may fail with 401 Unauthorized.");
       window.hasWarnedAboutToken = true;
