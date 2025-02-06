@@ -10,7 +10,11 @@ const LogIn = () => {
     if (auth.isAuthenticated) {
       navigate("/dashboard", { replace: true });
     } else if (!auth.isLoading) {
-      auth.signinRedirect().catch((err) => console.error("Login Redirect Error:", err));
+      auth.signinRedirect().catch((err) => {
+        if (import.meta.env.DEV) {
+          console.error("Login Redirect Error:", err);
+        }
+      });
     }
   }, [auth.isAuthenticated, auth.isLoading, auth.signinRedirect, navigate]);
 

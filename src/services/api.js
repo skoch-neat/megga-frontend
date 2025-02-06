@@ -13,7 +13,9 @@ API.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     } else if (!hasWarnedAboutToken) {
-      console.warn("No auth token found. Requests may fail with 401 Unauthorized.");
+      if (import.meta.env.DEV) {
+        console.warn("No auth token found. Requests may fail with 401 Unauthorized.");
+      }
       hasWarnedAboutToken = true;
     }
     return config;

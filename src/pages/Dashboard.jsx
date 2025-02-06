@@ -21,24 +21,26 @@ const Dashboard = ({ userId }) => {
       setIsModalOpen(true);
       return;
     }
-  
+
     try {
       const response = await apiService.get("recipients");
       const allRecipients = response.data;
-  
+
       const filteredRecipients = allRecipients.filter((recipient) =>
         recipientIds.includes(recipient.recipient_id)
       );
-  
+
       setSelectedThresholdRecipients(filteredRecipients);
       setIsModalOpen(true);
     } catch (error) {
-      console.error("❌ Error fetching recipient details:", error);
+      if (import.meta.env.DEV) {
+        console.error("❌ Error fetching recipient details:", error);
+      }
       setSelectedThresholdRecipients([]);
       setIsModalOpen(true);
     }
   };
-  
+
   const handleEditThreshold = (threshold) => {
     setEditingThreshold(threshold);
     setViewMode("edit");
@@ -53,7 +55,9 @@ const Dashboard = ({ userId }) => {
       setThresholds((prev) => prev.filter((t) => t.threshold_id !== thresholdId));
       setTimeout(() => setSuccessMessage(""), 3000);
     } catch (error) {
-      console.error("❌ Error deleting threshold:", error);
+      if (import.meta.env.DEV) {
+        console.error("❌ Error deleting threshold:", error);
+      }
     }
   };
 
@@ -66,7 +70,9 @@ const Dashboard = ({ userId }) => {
       setTimeout(() => setSuccessMessage(""), 3000);
       setThresholds([]);
     } catch (error) {
-      console.error("❌ Error deleting all thresholds:", error);
+      if (import.meta.env.DEV) {
+        console.error("❌ Error deleting all thresholds:", error);
+      }
     }
   };
 
