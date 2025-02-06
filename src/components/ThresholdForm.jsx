@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import PropTypes from 'prop-types';
 import { apiService } from "../services/api";
 import FormInput from "../components/FormInput";
 import Button from "../components/Button";
@@ -12,6 +13,7 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
   const [selectedRecipients, setSelectedRecipients] = useState(existingThreshold?.recipients?.map(String) || []);
   const [notifyUser, setNotifyUser] = useState(existingThreshold?.notify_user || false);
   const [message, setMessage] = useState(null);
+  const MESSAGE_TIMEOUT_MS = 3000;
 
   const availableDataItems = useMemo(
     () => dataItems.filter(item => !thresholds.some(threshold => threshold.data_id === item.data_id)),
@@ -42,7 +44,7 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
     if (message) {
       const timer = setTimeout(() => {
         setMessage(null);
-      }, 3000);
+      }, MESSAGE_TIMEOUT_MS);
 
       return () => clearTimeout(timer);
     }
@@ -59,7 +61,7 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
 
     const parsedThreshold = parseFloat(thresholdValue);
     if (!parsedThreshold || isNaN(parsedThreshold) || parsedThreshold <= 0 || selectedRecipients.length === 0) {
-      setMessage({ type: "error", text: "Please fill out all required fields." });
+      setMessage({ type: "error", text: "Please fill out all required fields. Threshold cannot be set to zero." });
       return;
     }
 
@@ -74,29 +76,29 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
     try {
       if (isEditing) {
         await apiService.put("threshold", { id: existingThreshold.threshold_id, ...payload })
-      
+
         const updatedThreshold = {
-          ...existingThreshold, 
+          ...existingThreshold,
           thresholdValue: payload.thresholdValue,
           notify_user: payload.notify_user,
           recipients: [...payload.recipients],
         };
-      
+
         setThresholds((prev) =>
           prev.map((t) => (t.threshold_id === updatedThreshold.threshold_id ? updatedThreshold : t))
         );
-      
+
         onSuccess(`✅ Threshold updated successfully!`, updatedThreshold);
       } else {
         const response = await apiService.post("threshold", payload);
-      
+
         const newThreshold = response.data;
-      
+
         const formattedThreshold = {
           ...newThreshold,
           recipients: newThreshold.recipients || []
         };
-      
+
         setThresholds((prev) => [...prev, formattedThreshold]);
         onSuccess(`✅ Threshold created successfully!`, formattedThreshold);
       }
@@ -108,13 +110,21 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
   };
 
   return (
-    <form className="threshold-form" onSubmit={handleSubmit}>
+    <form
+      className="threshold-form"
+      onSubmit={handleSubmit}
+      aria-label="Threshold Management Form"
+    >
       {message && <Message type={message.type}>{message.text}</Message>}
 
       {!isEditing && (
         <label>
           Select Good/Indicator:
-          <select value={dataId} onChange={(e) => setDataId(e.target.value)}>
+          <select
+            value={dataId}
+            onChange={(e) => setDataId(e.target.value)}
+            aria-required="true"
+          >
             <option value="">-- Select --</option>
             {availableDataItems.map((dataItem) => (
               <option key={dataItem.data_id} value={dataItem.data_id}>{dataItem.name}</option>
@@ -123,11 +133,24 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
         </label>
       )}
 
-      <FormInput label="Threshold Value (%)" type="number" value={thresholdValue} onChange={(e) => setThresholdValue(e.target.value)} step="any" />
+      <FormInput
+        label="Threshold Value (%)"
+        type="number"
+        value={thresholdValue}
+        onChange={(e) => setThresholdValue(e.target.value)}
+        step="any"
+        aria-required="true"
+      />
 
       <label>
         Select Recipients:
-        <select multiple value={selectedRecipients} onChange={(e) => setSelectedRecipients([...e.target.selectedOptions].map(o => o.value))}>
+        <select
+          multiple
+          value={selectedRecipients}
+          onChange={(e) => setSelectedRecipients([...e.target.selectedOptions].map(o => o.value))}
+          aria-required="true"
+          aria-label="Select one or more recipients"
+        >
           {recipients.map((r) => (
             <option key={r.recipient_id} value={r.recipient_id}>
               {r.designation ? `${r.designation} ` : ""}{r.first_name} {r.last_name}
@@ -148,6 +171,32 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
       </Button>
     </form>
   );
+};
+
+ThresholdForm.propTypes = {
+  mode: PropTypes.oneOf(['create', 'edit']).isRequired,
+  userId: PropTypes.string.isRequired,
+  recipients: PropTypes.arrayOf(PropTypes.shape({
+    recipient_id: PropTypes.number.isRequired,
+    first_name: PropTypes.string.isRequired,
+    last_name: PropTypes.string.isRequired,
+    designation: PropTypes.string,
+  })).isRequired,
+  dataItems: PropTypes.arrayOf(PropTypes.shape({
+    data_id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+  existingThreshold: PropTypes.shape({
+    threshold_id: PropTypes.number.isRequired,
+    data_id: PropTypes.number.isRequired,
+    threshold_value: PropTypes.number.isRequired,
+    recipients: PropTypes.arrayOf(PropTypes.number).isRequired,
+    notify_user: PropTypes.bool.isRequired,
+  }),
+  thresholds: PropTypes.array.isRequired,
+  onSuccess: PropTypes.func.isRequired,
+  setViewMode: PropTypes.func.isRequired,
+  setThresholds: PropTypes.func.isRequired,
 };
 
 export default ThresholdForm;
