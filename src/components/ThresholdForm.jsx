@@ -186,29 +186,29 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
 };
 
 ThresholdForm.propTypes = {
-  mode: PropTypes.oneOf(['create', 'edit']).isRequired,
-  userId: PropTypes.string.isRequired,
-  recipients: PropTypes.arrayOf(PropTypes.shape({
-    recipient_id: PropTypes.number.isRequired,
-    first_name: PropTypes.string.isRequired,
-    last_name: PropTypes.string.isRequired,
-    designation: PropTypes.string,
+  mode: propTypes.oneOf(['create', 'edit']).isRequired,
+  userId: propTypes.string.isRequired,
+  recipients: propTypes.arrayOf(propTypes.shape({
+    recipient_id: propTypes.number.isRequired,
+    first_name: propTypes.string.isRequired,
+    last_name: propTypes.string.isRequired,
+    designation: propTypes.string,
   })).isRequired,
-  dataItems: PropTypes.arrayOf(PropTypes.shape({
-    data_id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
+  dataItems: propTypes.arrayOf(propTypes.shape({
+    data_id: propTypes.number.isRequired,
+    name: propTypes.string.isRequired,
   })).isRequired,
-  existingThreshold: PropTypes.shape({
-    threshold_id: PropTypes.number.isRequired,
-    data_id: PropTypes.number.isRequired,
-    threshold_value: PropTypes.number.isRequired,
-    recipients: PropTypes.arrayOf(PropTypes.number).isRequired,
-    notify_user: PropTypes.bool.isRequired,
+  existingThreshold: propTypes.shape({
+    threshold_id: propTypes.number.isRequired,
+    data_id: propTypes.number.isRequired,
+    threshold_value: propTypes.number.isRequired,
+    recipients: propTypes.arrayOf(propTypes.number).isRequired,
+    notify_user: propTypes.bool.isRequired,
   }),
-  thresholds: PropTypes.array.isRequired,
-  onSuccess: PropTypes.func.isRequired,
-  setViewMode: PropTypes.func.isRequired,
-  setThresholds: PropTypes.func.isRequired,
+  thresholds: propTypes.array.isRequired,
+  onSuccess: propTypes.func.isRequired,
+  setViewMode: propTypes.func.isRequired,
+  setThresholds: propTypes.func.isRequired,
 };
 
 export default ThresholdForm;

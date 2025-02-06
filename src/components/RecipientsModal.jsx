@@ -26,14 +26,14 @@ const RecipientsModal = ({ recipients, onClose }) => {
 };
 
 RecipientsModal.propTypes = {
-  recipients: PropTypes.arrayOf(
-    PropTypes.shape({
-      recipient_id: PropTypes.string,
-      first_name: PropTypes.string.isRequired,
-      last_name: PropTypes.string.isRequired,
-      designation: PropTypes.string,
+  recipients: propTypes.arrayOf(
+    propTypes.shape({
+      recipient_id: propTypes.string,
+      first_name: propTypes.string.isRequired,
+      last_name: propTypes.string.isRequired,
+      designation: propTypes.string,
     })).isRequired,
-  onClose: PropTypes.func.isRequired,
+  onClose: propTypes.func.isRequired,
 };
 
 export default RecipientsModal;

@@ -5,9 +5,9 @@ const Message = ({ type = 'info', children }) => {
   return <p className={`message ${type}`}>{children}</p>;
 };
 
-Message.PropTypes = {
-  type: PropTypes.string,
-  children: PropTypes.node,
+Message.propTypes = {
+  type: propTypesropTypes.string,
+  children: propTypes.node,
 };
 
 export default Message;

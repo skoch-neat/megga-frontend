@@ -34,13 +34,13 @@ const FormInput = ({
 );
 
 FormInput.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  type: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onChange: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  required: PropTypes.bool,
+  id: propTypes.string.isRequired,
+  label: propTypes.string.isRequired,
+  type: propTypes.string,
+  value: propTypes.oneOfType([propTypes.string, propTypes.number]),
+  onChange: propTypes.func.isRequired,
+  error: propTypes.string,
+  required: propTypes.bool,
 };
 
 export default FormInput;
