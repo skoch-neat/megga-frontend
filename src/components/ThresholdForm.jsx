@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import { apiService } from "../services/api";
 import FormInput from "../components/FormInput";
 import Button from "../components/Button";

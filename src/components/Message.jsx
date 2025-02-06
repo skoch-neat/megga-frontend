@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 
 const Message = ({ type = 'info', children }) => {
   if (!children) return null;
