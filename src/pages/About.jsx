@@ -1,20 +1,22 @@
+import Emoji from '../components/Emoji';
+
 const About = () => (
   <div className="about-container">
     <h1>About MEGGA</h1>
     <p>
       In today's fast-changing economy, rising prices and economic shifts impact every household.
-     <br /><br />
-      <strong>MEGGA (Monitoring Economic Goods & Government Advocacy)</strong> empowers individuals to take action by automatically notifying elected representatives when economic thresholds are met. 
+      <br /><br />
+      <strong>MEGGA (Monitoring Economic Goods & Government Advocacy)</strong> empowers individuals to take action by automatically notifying elected representatives when economic thresholds are met.
       By tracking key economic indicators—like the cost of everyday goods—you can <strong>automate advocacy efforts</strong> and ensure your voice is heard where it matters.
     </p>
 
     <h2>Why Use MEGGA?</h2>
     <ul>
-      <li><strong>Stay Informed:</strong> MEGGA continuously monitors economic data, so you don’t have to.</li>
-      <li><strong>Advocate Effortlessly:</strong> Set personal thresholds, and when economic changes exceed them, automatic emails are sent to your representatives.</li>
-      <li><strong>Amplify Your Impact:</strong> Engage policymakers with real-world data.</li>
-      <li><strong>Get Notified:</strong> Opt-in for personal alerts when a threshold is triggered, so you can follow up and take additional action.</li>
-      <li><strong>Make a Difference:</strong> Advocacy shouldn’t be a full-time job—MEGGA makes it <strong>easy, automated, and effective</strong>.</li>
+      <li><strong><Emoji symbol="📈" label="Chart increasing" /> Stay Informed:</strong> MEGGA continuously monitors economic data, so you don’t have to.</li>
+      <li><strong><Emoji symbol="✊" label="Raised fist" /> Advocate Effortlessly:</strong> Set personal thresholds, and when economic changes exceed them, automatic emails are sent to your representatives.</li>
+      <li><strong><Emoji symbol="📢" label="Loudspeaker" /> Amplify Your Impact:</strong> Engage policymakers with real-world data.</li>
+      <li><strong><Emoji symbol="🔔" label="Bell" /> Get Notified:</strong> Opt-in for personal alerts when a threshold is triggered, so you can follow up and take additional action.</li>
+      <li><strong><Emoji symbol="🌎" label="Globe showing Americas" /> Make a Difference:</strong> Advocacy shouldn’t be a full-time job—MEGGA makes it <strong>easy, automated, and effective</strong>.</li>
     </ul>
 
     <h2>How It Works</h2>
@@ -28,7 +30,7 @@ const About = () => (
     <h2>A Proof of Concept</h2>
     <p>
       MEGGA is a <strong>proof-of-concept project</strong> focused on <strong>demonstrating the power of automated advocacy.</strong>
-      For security reasons, real-world emails are not sent to representatives. Instead, test emails are delivered via 
+      For security reasons, real-world emails are not sent to representatives. Instead, test emails are delivered via
       <strong>Testmail.app</strong>, ensuring a <strong>safe, responsible testing environment</strong> while preserving MEGGA's core functionality.
     </p>
 
