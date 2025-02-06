@@ -39,9 +39,8 @@ export const useAuthContext = () => {
           setUserId(newUser.data.user_id);
         }
       } catch (error) {
-        console.error("❌ Authentication error:", error);
+        throw new Error("Failed to authenticate user");
       }
-      throw new Error("Failed to authenticate user");
     })();
   }, [auth.isAuthenticated, auth.user]);
 
