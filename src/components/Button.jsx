@@ -1,22 +1,40 @@
-const Button = ({ 
-  onClick, 
-  children, 
-  className = "theme-button", 
-  type = "button",
-  isLoading = false,
-  disabled = false,
-  ...props 
+import PropTypes from 'prop-types';
+
+const Button = ({
+  onClick,
+  className,
+  type,
+  isLoading,
+  disabled,
+  children,
+  ...props
 }) => (
-  <button 
-    onClick={onClick} 
-    className={className} 
+  <button
+    onClick={onClick}
+    className={className}
     type={type}
     disabled={isLoading || disabled}
     aria-busy={isLoading}
     {...props}
   >
-    {isLoading ? <span className="loading-spinner" /> : children}
+    {isLoading ? <span className="loading-spinner" aria-label='Loading...' /> : children}
   </button>
 );
+
+Button.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  type: PropTypes.oneOf(['button', 'submit', 'reset']),
+  isLoading: PropTypes.bool,
+  disabled: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+};
+
+Button.defaultProps = {
+  className: '',
+  type: 'button',
+  isLoading: false,
+  disabled: false,
+};
 
 export default Button;
