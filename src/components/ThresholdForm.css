@@ -1,0 +1,136 @@
+/* Theme Variables */
+:root {
+  --background-light: #faf5e4;
+  --border-light: #eaeaea;
+  --text-light: #333333;
+
+  --background-dark: #101010;
+  --border-dark: #bebebe;
+  --text-dark: #e3c770;
+
+  --button-bg: #007bff;
+  --button-bg-hover: #0056b3;
+  --button-text: #ffffff;
+  --button-border: #004999;
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"] {
+  --background-light: #101010;
+  --border-light: #bebebe;
+  --text-light: #e3c770;
+
+  --button-bg: #444;
+  --button-bg-hover: #555;
+  --button-text: #f9c74f;
+  --button-border: #f9c74f;
+}
+
+/* Form Container */
+.threshold-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  max-width: 500px;
+  width: 100%;
+  margin: auto;
+  padding: 2rem;
+  border-radius: 8px;
+  background: var(--background-light);
+  border: 1px solid var(--border-light);
+  color: var(--text-light);
+  transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+/* Dark Mode Support */
+[data-theme="dark"] .threshold-form {
+  background: var(--background-dark);
+  border: 1px solid var(--border-dark);
+  color: var(--text-dark);
+}
+
+/* Labels */
+.threshold-form label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Inputs & Select Dropdown */
+.threshold-form select,
+.threshold-form input {
+  padding: 0.7rem;
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  font-size: 1rem;
+  background: var(--background-light);
+  color: var(--text-light);
+  transition: border 0.3s ease;
+}
+
+[data-theme="dark"] .threshold-form select,
+[data-theme="dark"] .threshold-form input {
+  border: 1px solid var(--border-dark);
+  background: var(--background-dark);
+  color: var(--text-dark);
+}
+
+/* Multi-Select Dropdown */
+.threshold-form select[multiple] {
+  height: 120px;
+  width: 100%;
+  overflow-y: auto;
+}
+
+/* Form Buttons */
+.threshold-form button {
+  padding: 0.75rem;
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: 2px solid var(--button-border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.threshold-form button:hover {
+  background: var(--button-bg-hover);
+}
+
+/* Messages */
+.message {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Checkbox Container */
+.threshold-checkbox-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.threshold-checkbox-container label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

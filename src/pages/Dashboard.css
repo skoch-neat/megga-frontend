@@ -1,0 +1,118 @@
+/* Theme Variables */
+:root {
+  --background-light: #faf5e4;
+  --border-light: #eaeaea;
+  --text-light: #333333;
+
+  --background-dark: #101010;
+  --border-dark: #bebebe;
+  --text-dark: #e3c770;
+
+  --button-bg: #007bff;
+  --button-bg-hover: #0056b3;
+  --button-text: #ffffff;
+  --button-border: #004999;
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"] {
+  --background-light: #101010;
+  --border-light: #bebebe;
+  --text-light: #e3c770;
+
+  --button-bg: #444;
+  --button-bg-hover: #555;
+  --button-text: #f9c74f;
+  --button-border: #f9c74f;
+}
+
+/* Dashboard Layout */
+.dashboard-container {
+  padding: 1rem;
+  max-width: 900px;
+  margin: auto;
+  background-color: var(--background-light);
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Navigation */
+.threshold-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+/* Threshold List */
+.threshold-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Individual Threshold Box */
+.threshold-box {
+  flex: 1 1 calc(33.333% - 16px);
+  min-width: 250px;
+  max-width: 300px;
+  padding: 15px;
+  text-align: center;
+  border-radius: 8px;
+  background-color: var(--background-light);
+  border: 1px solid var(--border-light);
+  color: var(--text-light);
+  transition: background-color 0.3s ease, border 0.3s ease;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode Adjustments */
+[data-theme="dark"] .threshold-box {
+  background-color: var(--background-dark);
+  border: 1px solid var(--border-dark);
+  color: var(--text-dark);
+}
+
+/* Messages */
+.success-message,
+.no-thresholds-message {
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.no-thresholds-message {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+/* Button Styles */
+.threshold-nav button,
+.threshold-box button,
+.threshold-form button {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: 1px solid var(--button-border);
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.threshold-nav button:hover,
+.threshold-box button:hover,
+.threshold-form button:hover {
+  background-color: var(--button-bg-hover);
+}

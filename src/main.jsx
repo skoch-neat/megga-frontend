@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { AuthProvider } from "react-oidc-context";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 
 const cognitoAuthConfig = {
@@ -21,12 +22,15 @@ const cognitoAuthConfig = {
   },
 };
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const initialTheme = localStorage.getItem("theme") || "light";
+document.documentElement.setAttribute("data-theme", initialTheme);
 
-root.render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider {...cognitoAuthConfig}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </AuthProvider>
   </React.StrictMode>
 );

@@ -1,0 +1,102 @@
+/* Theme Variables */
+:root {
+  --primary-color: #cdb110;
+  --secondary-color: #1a2a6c;
+  --text-light: #ffffff;
+  --text-dark: #333333;
+  --hover-light: #e1c210;
+  --hover-dark: #555;
+  --navbar-bg: var(--primary-color); /* ✅ Define navbar background */
+  --dark-navbar-bg: var(--secondary-color); /* ✅ Define dark mode navbar background */
+}
+
+/* Navigation Bar */
+.nav-bar {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem;
+  background-color: var(--primary-color);
+  border-bottom: 2px solid var(--text-dark);
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* Navigation Links */
+.nav-bar a {
+  text-decoration: none;
+  color: var(--secondary-color);
+  font-weight: bold;
+  padding: 0.5rem;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.nav-bar a.active {
+  color: var(--text-light);
+  border-bottom: 2px solid var(--text-light);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  margin-left: auto;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: var(--navbar-bg);
+  color: var(--text-light);
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background-color: var(--hover-light);
+}
+
+/* Dark Mode Adjustments */
+[data-theme="dark"] .nav-bar {
+  background-color: var(--secondary-color);
+  border-bottom: 2px solid var(--text-light);
+}
+
+[data-theme="dark"] .nav-bar a {
+  color: var(--text-light);
+}
+
+[data-theme="dark"] .nav-bar a.active {
+  border-bottom: 2px solid var(--text-dark);
+}
+
+[data-theme="dark"] .theme-toggle {
+  background-color: var(--text-dark);
+  color: var(--hover-light);
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+  background-color: var(--hover-dark);
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #1a2a6c; /* Match NavLink color */
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0.5rem;
+}
+
+.nav-button:hover {
+  color: #646cff;
+  text-decoration: underline;
+}
+
+/* Keep Theme Toggle Button Styled Separately */
+.theme-button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: inherit;
+  cursor: pointer;
+  padding: 0.5rem;
+}
