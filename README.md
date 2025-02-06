@@ -1,6 +1,14 @@
-# MEGGA Frontend
+# MEGGA (Frontend)
+
+## **Project Overview**
+MEGGA (Monitoring Economic Goods & Government Advocacy) is designed to automate political advocacy by monitoring changes in common household goods and economic indicators as reported by the **Bureau of Labor Statistics (BLS) API**. Users can create **thresholds**, and when these are triggered, emails are automatically sent to their **specified political representatives**. Users can also opt-in to receive an email notification when a threshold is met, encouraging further advocacy efforts.
+
+### **Proof of Concept & Security Considerations**
+This project is a **proof of concept**, meaning that the full email automation system is not configured to send emails to actual government representatives at this stage. Due to security and spam concerns, all threshold-triggered emails are sent to **Testmail.app** rather than directly to representatives. This allows safe testing of the notification system without risk of abuse.
 
 The MEGGA frontend is built with React and Vite, providing a user-friendly interface for authentication, data visualization, and threshold management. This application interacts with the MEGGA backend for user data and threshold updates, and it uses AWS Cognito for secure authentication.
+
+
 
 ---
 
@@ -9,35 +17,57 @@ The MEGGA frontend is built with React and Vite, providing a user-friendly inter
 - **User Authentication**: Login and token management via AWS Cognito.
 - **User Management**: Save user profiles to the backend and fetch user data.
 - **Threshold Management**: Communicates with the MEGGA backend for CRUD operations.
+- **Recipient Notifications** for threshold breaches.
+- **Dark Mode Support**
 - **Responsive Interface**: Intuitive and minimal design.
-- **Environment Configurations**: Customizable via `.env` files.
 
 ---
 
 ## **Project Structure**
 
+```
 megga-frontend/
-- src/  
-  - components/  
-    - NavBar.jsx (Navigation bar)  
-  - pages/  
-    - About.jsx  
-    - Dashboard.jsx  
-    - Login.jsx  
-    - SignOut.jsx  
-    - NotFound.jsx  
-    - RedirectHandler.jsx  
-  - routes/  
-    - ProtectedRoute.jsx (Route protection logic)  
-  - services/  
-    - api.js (Axios instance and API functions)  
-  - App.jsx (Main application logic)  
-  - main.jsx (Entry point for React)  
-  - index.html (Root HTML file)  
-- .env (Environment variable configuration)  
-- package.json (Dependencies and scripts)  
-- vite.config.js (Vite configuration)  
-- README.md (Documentation)
+├── src/
+│   ├── components/                # Reusable UI components
+│   │   ├── Button.jsx             # Custom button component
+│   │   ├── FormInput.jsx          # Input field component
+│   │   ├── Message.jsx            # Displays error/success messages
+│   │   ├── NavBar.css             # Styling for navigation bar
+│   │   ├── NavBar.jsx             # Navigation bar component
+│   │   ├── RecipientsModal.css    # Styling for recipients modal
+│   │   ├── RecipientsModal.jsx    # Modal for viewing recipients
+│   │   ├── ThresholdForm.css      # Styling for threshold form
+│   │   ├── ThresholdForm.jsx      # Form for creating/editing thresholds
+│   ├── hooks/                     # Custom React hooks
+│   │   ├── useAuthContext.js      # Manages authentication state
+│   │   ├── useDashboardData.js    # Fetches and manages dashboard data
+│   │   ├── useTheme.js            # Handles dark mode toggle
+│   ├── pages/                     # Page components
+│   │   ├── About.jsx              # About page
+│   │   ├── Dashboard.css          # Styling for dashboard
+│   │   ├── Dashboard.jsx          # Main dashboard page
+│   │   ├── Login.jsx              # Login page
+│   │   ├── NotFound.jsx           # 404 page
+│   │   ├── RedirectHandler.jsx    # Handles authentication redirects
+│   │   ├── SignOut.jsx            # Handles user sign-out
+│   ├── routes/                    # Routing logic
+│   │   ├── ProtectedRoute.jsx     # Protects routes for authenticated users
+│   ├── services/                  # API and utility services
+│   │   ├── api.js                 # Axios instance and API functions
+│   ├── App.css                     # Global styling
+│   ├── App.jsx                     # Main application logic
+│   ├── index.css                   # Base styles for application
+│   ├── main.jsx                     # Entry point for React
+├── .env.example                    # Example environment configuration
+├── .gitignore                       # Git ignore rules
+├── LICENSE                          # Project license
+├── README.md                        # Project documentation
+├── eslint.config.js                  # ESLint configuration
+├── index.html                        # Root HTML file
+├── package-lock.json                  # Package lock file
+├── package.json                      # Project dependencies and scripts
+├── vite.config.js                     # Vite configuration file
+```
 
 ---
 
@@ -45,8 +75,8 @@ megga-frontend/
 
 ### **1. Prerequisites**
 
-Ensure you have the following installed:  
-- Node.js (16.x or higher)  
+Ensure you have the following installed:
+- Node.js (16.x or higher)
 - npm (8.x or higher)
 
 ---
@@ -55,8 +85,10 @@ Ensure you have the following installed:
 
 Run the following commands to clone the repository and navigate to the project directory:
 
-    git clone <repository-url>
-    cd megga-frontend
+```sh
+git clone <repository-url>
+cd megga-frontend
+```
 
 ---
 
@@ -67,117 +99,65 @@ Copy the provided `.env.example` file and configure your variables:
 #### Variables expected in the `.env`:
 
 - **Backend Configuration**:  
-  - `VITE_API_BASE_URL=<backend_url>` (e.g., `http://localhost:8080` for local development or `https://api.yourdomain.com` for production)
+  - `VITE_API_BASE_URL=<backend_url>` (Base URL for the MEGGA backend API, e.g., `http://localhost:8080` or a production API URL)
 
 - **Cognito Configuration**:  
-  - `VITE_COGNITO_AUTHORITY=https://<your_cognito_authority>`  
-  - `VITE_COGNITO_DOMAIN=https://<your_cognito_domain>`  
-  - `VITE_COGNITO_CLIENT_ID=<your_cognito_client_id>`  
-  - `VITE_COGNITO_REDIRECT_URI=<frontend_url>` (e.g., `http://localhost:5173`)  
-  - `VITE_COGNITO_LOGOUT_URI=<frontend_url>` (e.g., `http://localhost:5173`)  
-  - `VITE_COGNITO_IDP_URL=https://<your_cognito_idp_url>`  
-  - `VITE_COGNITO_TOKEN_URL=https://<your_cognito_token_url>`
-
-**Tip**: The `.env.example` file contains placeholders for all required variables. Copy it to `.env` and replace placeholders with your actual configuration values.
-
----
-
-### **4. Install Dependencies**
-
-Install the required dependencies for the project:
-
-    npm install
-
----
-
-### **5. Start the Development Server**
-
-Start the local development server:
-
-    npm run
-
-The application will be available at `http://localhost:5173`.
-
----
-
-## **Security**
-
-### **Environment Variables**
-
-Keep your `.env` file secure and do not commit it to version control. Use `.env.example` as a template for collaborators.
+  - `VITE_COGNITO_AUTHORITY=<cognito_authority_url>` (AWS Cognito Identity Provider URL, typically region-specific)
+  - `VITE_COGNITO_DOMAIN=<cognito_auth_domain>` (AWS Cognito authentication domain)
+  - `VITE_COGNITO_CLIENT_ID=<cognito_client_id>` (AWS Cognito application client ID)
+  - `VITE_COGNITO_REDIRECT_URI=<frontend_redirect_url>` (Redirect URI for authentication flows)
+  - `VITE_COGNITO_LOGOUT_URI=<frontend_logout_url>` (Redirect URI for logging out)
+  - `VITE_COGNITO_IDP_URL=<cognito_idp_base_url>` (Base URL for AWS Cognito Identity Provider)
+  - `VITE_COGNITO_TOKEN_URL=<cognito_token_url>` (Cognito OAuth2 token endpoint)
 
 ---
 
 ## **API Endpoints**
 
-The frontend communicates with the MEGGA backend to access the following endpoints:
+The frontend interacts with the MEGGA backend using the following endpoints:
 
-### **User Routes**
+### **User Endpoints**
+- `GET /users` - Retrieve a list of all users.
+- `GET /users/{email}` - Retrieve a user by email.
+- `POST /users` - Create a new user.
 
-- `GET /users`: Retrieve a list of all users.  
-- `POST /users`: Create a new user.
+### **Threshold Endpoints**
+- `GET /users/{id}/thresholds` - Retrieve all thresholds for a user.
+- `GET /thresholds/{id}` - Retrieve a specific threshold.
+- `POST /thresholds` - Create a new threshold.
+- `PUT /thresholds/{id}` - Update an existing threshold.
+- `DELETE /thresholds/{id}` - Delete a specific threshold.
 
-### Data Routes
+### **Recipient Endpoints**
+- `GET /recipients` - Retrieve all recipients.
 
-- `GET /data`: Retrieve all data points.  
-- `GET /data/{id}`: Retrieve a specific data point by ID.  
-- `POST /data`: Create a new data point.  
-- `PUT /data/{id}`: Update a specific data point.  
-- `DELETE /data/{id}`: Delete a data point.
-
-### Threshold Routes
-
-- `GET /thresholds`: Retrieve all thresholds.  
-- `GET /thresholds/{id}`: Retrieve a specific threshold by ID.  
-- `POST /thresholds`: Create a new threshold.  
-- `PUT /thresholds/{id}`: Update a specific threshold.  
-- `DELETE /thresholds/{id}`: Delete a threshold.
-
-### Notification Routes
-
-- `GET /notifications`: Retrieve all notifications.  
-- `GET /notifications/{id}`: Retrieve a specific notification by ID.  
-- `POST /notifications`: Create a new notification.  
-- `PUT /notifications/{id}`: Update a notification.  
-- `DELETE /notifications/{id}`: Delete a notification.
-
-### Recipient Routes
-
-- `GET /recipients`: Retrieve all recipients.  
-- `GET /recipients/{id}`: Retrieve a specific recipient by ID.  
-- `POST /recipients`: Create a new recipient.  
-- `PUT /recipients/{id}`: Update a recipient.  
-- `DELETE /recipients/{id}`: Delete a recipient.
-
-### Threshold Recipient Routes
-
-- `GET /threshold_recipients`: Retrieve all threshold recipients.  
-- `GET /threshold_recipients/{threshold_id}/{recipient_id}`: Retrieve a specific threshold recipient.  
-- `POST /threshold_recipients`: Create a new threshold recipient.  
-- `PUT /threshold_recipients/{threshold_id}/{recipient_id}`: Update a threshold recipient.  
-- `DELETE /threshold_recipients/{threshold_id}/{recipient_id}`: Delete a threshold recipient.
+### **Data Endpoints**
+- `GET /data` - Retrieve all data items.
 
 ---
 
 ## **Deployment**
 
-### **1. Build for Production**
+This project is deployed using **AWS Amplify**.
 
-Run the following command to build the application for production:
-
-    npm run build
-
-This will generate the production-ready files in the `dist/` directory.
-
-### **2. Serve the Application**
-
-Serve the `dist/` directory using a static file server or hosting platform.
+### Steps to Deploy:
+1. **Push Changes to GitHub**
+```sh
+git add .
+git commit -m "Deploying latest changes"
+git push origin main
+```
+2. **Go to AWS Amplify Console**
+3. **Connect Your GitHub Repository**
+4. **Configure Build Settings (Default React Preset is fine)**
+5. **Deploy & Monitor Build Process**
+6. **Once deployed, your app will be live at:** `https://your-app.amplifyapp.com`
 
 ---
 
 ## **Contributing**
 
-At this time, contributions are not being accepted. This project is intended for educational purposes and is shared for review and feedback.
+At this time, contributions are not being accepted. This is a capstone project shared for review and feedback.
 
 ---
 
