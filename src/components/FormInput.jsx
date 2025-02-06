@@ -1,14 +1,16 @@
-const FormInput = ({ 
-  label, 
-  type = "text", 
-  value, 
-  onChange, 
+import PropTypes from 'prop-types';
+
+const FormInput = ({
+  id,
+  label,
+  type = "text",
+  value,
+  onChange,
   error,
   required = false,
-  id,
-  ...props 
+  ...props
 }) => (
-  <div className="form-field">
+  <div className="form-input">
     <label htmlFor={id}>
       {label}
       {required && <span className="required">*</span>}
@@ -30,5 +32,15 @@ const FormInput = ({
     )}
   </div>
 );
+
+FormInput.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onChange: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  required: PropTypes.bool,
+};
 
 export default FormInput;
