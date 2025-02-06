@@ -57,7 +57,8 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
       return;
     }
 
-    if (!thresholdValue || selectedRecipients.length === 0) {
+    const parsedThreshold = parseFloat(thresholdValue);
+    if (!parsedThreshold || isNaN(parsedThreshold) || parsedThreshold <= 0 || selectedRecipients.length === 0) {
       setMessage({ type: "error", text: "Please fill out all required fields." });
       return;
     }
