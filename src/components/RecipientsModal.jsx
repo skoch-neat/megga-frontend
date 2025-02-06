@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import "./RecipientsModal.css";
 
 const RecipientsModal = ({ recipients, onClose }) => {
@@ -9,7 +10,7 @@ const RecipientsModal = ({ recipients, onClose }) => {
         {recipients.length > 0 ? (
           <ul>
             {recipients.map((recipient, index) => (
-              <li key={recipient.recipient_id || index}> {/* ✅ Ensure a unique key */}
+              <li key={recipient.recipient_id || `${recipient.first_name}-${recipient.last_name}-${index}`}>
                 {recipient.designation ? `${recipient.designation} ` : ""}
                 {recipient.first_name} {recipient.last_name}
               </li>
@@ -22,6 +23,17 @@ const RecipientsModal = ({ recipients, onClose }) => {
       </div>
     </div>
   );
+};
+
+RecipientsModal.propTypes = {
+  recipients: PropTypes.arrayOf(
+    PropTypes.shape({
+      recipient_id: PropTypes.string,
+      first_name: PropTypes.string.isRequired,
+      last_name: PropTypes.string.isRequired,
+      designation: PropTypes.string,
+    })).isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default RecipientsModal;
