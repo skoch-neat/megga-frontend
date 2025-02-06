@@ -28,7 +28,9 @@ export const useDashboardData = (userId) => {
         setRecipients(recipientsRes.data);
         setDataItems(dataRes.data);
       } catch (err) {
-        console.error("❌ API Fetch Error:", err);
+        if (import.meta.env.DEV) {
+          console.error("❌ API Fetch Error:", err);
+        }
         setError("Failed to fetch dashboard data.");
       } finally {
         setLoading(false);

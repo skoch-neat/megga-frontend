@@ -5,7 +5,9 @@ export const useTheme = () => {
     try {
       return localStorage.getItem("theme") || "light";
     } catch (error) {
-      console.error("Failed to get theme from localStorage:", error);
+      if (import.meta.env.DEV) {
+        console.error("Failed to get theme from localStorage:", error);
+      }
       return "dark";
     }
   })
@@ -17,7 +19,9 @@ export const useTheme = () => {
     try {
       localStorage.setItem("theme", newTheme);
     } catch (error) {
-      console.error("Failed to save theme to localStorage:", error);
+      if (import.meta.env.DEV) {
+        console.error("Failed to save theme to localStorage:", error);
+      }
     }
   }, [theme]);
 

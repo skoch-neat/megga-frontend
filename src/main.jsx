@@ -12,13 +12,19 @@ const cognitoAuthConfig = {
   scope: "email openid profile",
   storage: localStorage,
   onSigninCallback: () => {
-    console.log("Signin callback triggered: User successfully redirected back.");
+    if (import.meta.env.DEV) {
+      console.log("Signin callback triggered: User successfully redirected back.");
+    }
   },
   onSigninError: (error) => {
-    console.error("Signin error occurred:", error);
+    if (import.meta.env.DEV) {
+      console.error("Signin error occurred:", error);
+    }
   },
   onSignoutCallback: () => {
-    console.log("Signout callback triggered: User signed out.");
+    if (import.meta.env.DEV) {
+      console.log("Signout callback triggered: User signed out.");
+    }
   },
 };
 

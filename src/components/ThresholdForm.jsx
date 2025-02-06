@@ -115,7 +115,9 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
       // setMessage({ type: "error", text: "An error occurred while saving the threshold." });
       const errorMessage = err.response?.data?.message || err.message || "An error occurred while saving the threshold.";
       setMessage({ type: "error", text: errorMessage });
-      console.error('Threshold save error:', err);
+      if (import.meta.env.DEV) {
+        console.error('Threshold save error:', err);
+      }
     }
   };
 
@@ -148,7 +150,7 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
         type="number"
         value={thresholdValue}
         onChange={(e) => setThresholdValue(e.target.value)}
-        step="any"
+        step="1"
         aria-required="true"
       />
 
