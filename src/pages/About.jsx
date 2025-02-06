@@ -3,7 +3,7 @@ const About = () => (
     <h1>About MEGGA</h1>
     <p>
       In today's fast-changing economy, rising prices and economic shifts impact every household.
-      <p></p>
+     <br /><br />
       <strong>MEGGA (Monitoring Economic Goods & Government Advocacy)</strong> empowers individuals to take action by automatically notifying elected representatives when economic thresholds are met. 
       By tracking key economic indicators—like the cost of everyday goods—you can <strong>automate advocacy efforts</strong> and ensure your voice is heard where it matters.
     </p>
