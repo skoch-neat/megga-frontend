@@ -24,7 +24,7 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
     if (!isEditing || !existingThreshold) return false;
 
     const result =
-      parseFloat(thresholdValue) === existingThreshold.threshold_value &&
+      parseInt(thresholdValue) === existingThreshold.threshold_value &&
       notifyUser === existingThreshold.notify_user &&
       JSON.stringify([...selectedRecipients].sort()) === JSON.stringify([...existingThreshold.recipients.map(String)].sort());
     return result;
@@ -59,7 +59,7 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
       return;
     }
 
-    const parsedThreshold = parseFloat(thresholdValue);
+    const parsedThreshold = parseInt(thresholdValue);
     if (!parsedThreshold || isNaN(parsedThreshold) || parsedThreshold <= 0 || selectedRecipients.length === 0) {
       setMessage({ type: "error", text: "Please fill out all required fields. Threshold cannot be set to zero." });
       return;
@@ -68,14 +68,17 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
     const payload = {
       userId,
       dataId: Number(dataId),
-      thresholdValue: parseFloat(thresholdValue),
+      thresholdValue: parseInt(thresholdValue),
       notify_user: Boolean(notifyUser),
       recipients: selectedRecipients.map(Number),
     };
 
     try {
       if (isEditing) {
-        await apiService.put("threshold", { id: existingThreshold.threshold_id, ...payload })
+        const response = await apiService.put("threshold", { id: existingThreshold.threshold_id, ...payload });
+        if (!response.data) {
+          throw new Error('Invalid response format');
+        }
 
         const updatedThreshold = {
           ...existingThreshold,
@@ -92,6 +95,10 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
       } else {
         const response = await apiService.post("threshold", payload);
 
+        if (!response.data || !response.data.threshold_id) {
+          throw new Error('Invalid response format');
+        }
+
         const newThreshold = response.data;
 
         const formattedThreshold = {
@@ -105,7 +112,10 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
 
       setViewMode("view");
     } catch (err) {
-      setMessage({ type: "error", text: "An error occurred while saving the threshold." });
+      // setMessage({ type: "error", text: "An error occurred while saving the threshold." });
+      const errorMessage = err.response?.data?.message || err.message || "An error occurred while saving the threshold.";
+      setMessage({ type: "error", text: errorMessage });
+      console.error('Threshold save error:', err);
     }
   };
 
