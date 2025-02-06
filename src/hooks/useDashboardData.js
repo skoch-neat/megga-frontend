@@ -15,8 +15,8 @@ export const useDashboardData = (userId) => {
 
     (async () => {
       try {
-        if (initialLoad || isFetching) setLoading(true); // ✅ Only show "Loading..." on first fetch
-        setIsFetching(true); // ✅ Ensures we track active fetches
+        if (initialLoad || isFetching) setLoading(true);
+        setIsFetching(true);
 
         const [thresholdsRes, recipientsRes, dataRes] = await Promise.all([
           apiService.get("thresholdsForUser", userId),
@@ -33,7 +33,7 @@ export const useDashboardData = (userId) => {
       } finally {
         setLoading(false);
         setInitialLoad(false);
-        setIsFetching(false); // ✅ Prevents unnecessary re-fetches from triggering "Loading..."
+        setIsFetching(false);
       }
     })();
   }, [userId, thresholds.length]);
