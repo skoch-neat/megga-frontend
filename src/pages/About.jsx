@@ -10,11 +10,11 @@ const About = () => (
 
     <h2>Why Use MEGGA?</h2>
     <ul>
-      <li><strong>📈 Stay Informed:</strong> MEGGA continuously monitors economic data, so you don’t have to.</li>
-      <li><strong>✊ Advocate Effortlessly:</strong> Set personal thresholds, and when economic changes exceed them, automatic emails are sent to your representatives.</li>
-      <li><strong>📢 Amplify Your Impact:</strong> Engage policymakers with real-world data.</li>
-      <li><strong>🔔 Get Notified:</strong> Opt-in for personal alerts when a threshold is triggered, so you can follow up and take additional action.</li>
-      <li><strong>🌎 Make a Difference:</strong> Advocacy shouldn’t be a full-time job—MEGGA makes it <strong>easy, automated, and effective</strong>.</li>
+      <li><strong>Stay Informed:</strong> MEGGA continuously monitors economic data, so you don’t have to.</li>
+      <li><strong>Advocate Effortlessly:</strong> Set personal thresholds, and when economic changes exceed them, automatic emails are sent to your representatives.</li>
+      <li><strong>Amplify Your Impact:</strong> Engage policymakers with real-world data.</li>
+      <li><strong>Get Notified:</strong> Opt-in for personal alerts when a threshold is triggered, so you can follow up and take additional action.</li>
+      <li><strong>Make a Difference:</strong> Advocacy shouldn’t be a full-time job—MEGGA makes it <strong>easy, automated, and effective</strong>.</li>
     </ul>
 
     <h2>How It Works</h2>
