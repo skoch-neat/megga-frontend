@@ -96,25 +96,6 @@ megga-frontend/
 
 ---
 
-## **Deployment**
-
-This project is deployed using **AWS Amplify**.
-
-### Steps to Deploy:
-1. **Push Changes to GitHub**
-```sh
-git add .
-git commit -m "Deploying latest changes"
-git push origin main
-```
-2. **Go to AWS Amplify Console**
-3. **Connect Your GitHub Repository**
-4. **Configure Build Settings (Default React Preset is fine)**
-5. **Deploy & Monitor Build Process**
-6. **Once deployed, your app will be live at:** `https://your-app.amplifyapp.com`
-
----
-
 ## **Setup Instructions**
 
 ### **1. Prerequisites**
