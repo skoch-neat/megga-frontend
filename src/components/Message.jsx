@@ -6,7 +6,7 @@ const Message = ({ type = 'info', children }) => {
 };
 
 Message.propTypes = {
-  type: propTypesropTypes.string,
+  type: propTypes.string,
   children: propTypes.node,
 };
 
