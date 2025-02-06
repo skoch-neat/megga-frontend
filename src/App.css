@@ -1,39 +1,27 @@
-/* Light Theme (Default) */
+/* Light Theme */
 :root {
   --primary-color: #CDB110;
-  /* Gold */
   --secondary-color: #1A2A6C;
-  /* Deep Blue */
   --background-color: #FAF5E4;
-  /* Soft Off-White */
   --text-color: #333333;
-  /* Dark Charcoal */
   --border-color: #EAEAEA;
-  /* Light Gray */
 }
 
 /* Dark Theme */
 [data-theme="dark"] {
   --primary-color: #A88E2A;
-  /* Deep Gold */
   --secondary-color: #0D1B42;
-  /* Midnight Blue */
   --background-color: #101010;
-  /* Rich Black */
   --text-color: #E3C770;
-  /* Soft Gold */
   --border-color: #BEBEBE;
-  /* Warm Gray */
 }
 
-/* General Styles */
 body {
   background-color: var(--background-color);
   color: var(--text-color);
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
-/* Navigation Bar */
 .nav-bar {
   display: flex;
   gap: 1rem;
@@ -66,7 +54,6 @@ body {
   background-color: var(--text-color);
 }
 
-/* Theme Toggle Button */
 .theme-toggle {
   position: absolute;
   top: 1rem;
