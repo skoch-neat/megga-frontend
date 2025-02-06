@@ -30,11 +30,4 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-Button.defaultProps = {
-  className: '',
-  type: 'button',
-  isLoading: false,
-  disabled: false,
-};
-
 export default Button;
