@@ -1,5 +1,5 @@
 import React from "react";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import "./RecipientsModal.css";
 
 const RecipientsModal = ({ recipients, onClose }) => {
@@ -26,14 +26,14 @@ const RecipientsModal = ({ recipients, onClose }) => {
 };
 
 RecipientsModal.propTypes = {
-  recipients: propTypes.arrayOf(
-    propTypes.shape({
-      recipient_id: propTypes.string,
-      first_name: propTypes.string.isRequired,
-      last_name: propTypes.string.isRequired,
-      designation: propTypes.string,
+  recipients: PropTypes.arrayOf(
+    PropTypes.shape({
+      recipient_id: PropTypes.string,
+      first_name: PropTypes.string.isRequired,
+      last_name: PropTypes.string.isRequired,
+      designation: PropTypes.string,
     })).isRequired,
-  onClose: propTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default RecipientsModal;

@@ -1,4 +1,5 @@
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
+
 
 const Emoji = ({ symbol, label }) => (
   <span
@@ -11,8 +12,8 @@ const Emoji = ({ symbol, label }) => (
 );
 
 Emoji.propTypes = {
-  symbol: propTypes.string.isRequired,
-  label: propTypes.string,
+  symbol: PropTypes.string.isRequired,
+  label: PropTypes.string,
 };
 
 export default Emoji;
