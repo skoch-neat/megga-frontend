@@ -1,3 +1,5 @@
+@import "@aws-amplify/ui-react/styles.css";
+
 /* Theme Variables */
 :root {
   --primary-color: #cdb110;
@@ -55,7 +57,7 @@
 
 /* Dark Mode Adjustments */
 [data-theme="dark"] .nav-bar {
-  background-color: var(--secondary-color);
+  /* background-color: var(--secondary-color); */
   border-bottom: 2px solid var(--text-light);
 }
 
@@ -78,16 +80,17 @@
 
 .nav-button {
   background: none;
+  background-color: inherit !important;
   border: none;
   font-size: 1rem;
-  color: #1a2a6c; /* Match NavLink color */
+  color: #1a2a6c !important;
   cursor: pointer;
   text-decoration: none;
   padding: 0.5rem;
 }
 
 .nav-button:hover {
-  color: #646cff;
+  color: #faf5e4 !important;
   text-decoration: underline;
 }
 
