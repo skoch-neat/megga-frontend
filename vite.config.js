@@ -22,4 +22,17 @@ export default defineConfig({
       },
     }),
   ],
+  base: '/',
+  build: {
+    outDir: 'dist', // Ensure built files are placed in the correct directory
+    assetsDir: 'assets', // Ensures assets (JS, CSS) are correctly referenced
+    manifest: true, // Helps Amplify properly recognize asset files
+    rollupOptions: {
+      output: {
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash][extname]',
+      },
+    },
+  },
 });
