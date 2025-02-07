@@ -8,10 +8,10 @@
   --border-dark: #bebebe;
   --text-dark: #e3c770;
 
-  --button-bg: #007bff;
-  --button-bg-hover: #0056b3;
+  --button-bg: #444;
+  --button-bg-hover: #363535;
   --button-text: #ffffff;
-  --button-border: #004999;
+  --button-border: #252525;
 }
 
 /* Dark Mode Variables */
@@ -105,6 +105,9 @@
   color: var(--button-text);
   border: 1px solid var(--button-border);
   padding: 0.6rem 1rem;
+  margin-top: 1rem;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
   border-radius: 6px;
   cursor: pointer;
   font-size: 1rem;
