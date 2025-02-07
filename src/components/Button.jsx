@@ -1,24 +1,31 @@
+import { Button as AmplifyButton } from '@aws-amplify/ui-react';
 import PropTypes from 'prop-types';
 
 const Button = ({
   onClick,
   className,
-  type,
-  isLoading,
-  disabled,
+  type = 'button',
+  isLoading = false,
+  disabled = false,
   children,
+  variation = 'primary',
+  colorTheme,
+  size,
   ...props
 }) => (
-  <button
+  <AmplifyButton
     onClick={onClick}
     className={className}
     type={type}
-    disabled={isLoading || disabled}
-    aria-busy={isLoading}
+    isLoading={isLoading}
+    isDisabled={isLoading || disabled}
+    variation={variation}
+    colorTheme={colorTheme}
+    size={size}
     {...props}
   >
-    {isLoading ? <span className="loading-spinner" aria-label='Loading...' /> : children}
-  </button>
+    {children}
+  </AmplifyButton>
 );
 
 Button.propTypes = {
@@ -28,6 +35,9 @@ Button.propTypes = {
   isLoading: PropTypes.bool,
   disabled: PropTypes.bool,
   children: PropTypes.node.isRequired,
+  variation: PropTypes.oneOf(['primary', 'link', 'menu', 'warning', 'destructive']),
+  colorTheme: PropTypes.oneOf(['error', 'info', 'warning', 'success', 'overlay']),
+  size: PropTypes.oneOf(['small', 'large']),
 };
 
 export default Button;
