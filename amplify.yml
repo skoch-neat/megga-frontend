@@ -15,12 +15,3 @@ applications:
       cache:
         paths:
           - node_modules/**/*
-      customHeaders:
-        - pattern: '**/*'
-          headers:
-            - key: Cache-Control
-              value: 'max-age=0, no-cache, no-store, must-revalidate'
-        - pattern: '/*'
-          headers:
-            - key: Content-Type
-              value: 'text/html'
