@@ -36,6 +36,9 @@ export default defineConfig({
     },
   },
   server: {
-    historyApiFallback: true, // Ensures React Router works correctly
+    hmr: true,
+    watch: {
+      usePolling: true,
+    }
   }
 });

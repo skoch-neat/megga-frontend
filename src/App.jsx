@@ -24,7 +24,6 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/login" element={!auth.isAuthenticated ? <LogIn /> : <Navigate to="/dashboard" replace />} />
         <Route path="/auth-redirect" element={<RedirectHandler />} />
-        <Route path="/auth-redirect/" element={<RedirectHandler />} />
         <Route
           path="/dashboard"
           element={
