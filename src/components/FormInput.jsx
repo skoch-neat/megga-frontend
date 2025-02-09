@@ -34,7 +34,7 @@ const FormInput = ({
 );
 
 FormInput.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   label: PropTypes.string.isRequired,
   type: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
