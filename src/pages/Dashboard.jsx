@@ -26,9 +26,12 @@ const Dashboard = ({ userId }) => {
       const response = await apiService.get("recipients");
       const allRecipients = response.data;
 
-      const filteredRecipients = allRecipients.filter((recipient) =>
-        recipientIds.includes(recipient.recipient_id)
-      );
+      const filteredRecipients = allRecipients
+        .filter((recipient) => recipientIds.includes(recipient.recipient_id))
+        .map((recipient) => ({
+          ...recipient,
+          recipient_id: String(recipient.recipient_id),
+        }));
 
       setSelectedThresholdRecipients(filteredRecipients);
       setIsModalOpen(true);
@@ -86,7 +89,7 @@ const Dashboard = ({ userId }) => {
         if (exists) {
           return prev.map(t =>
             t.threshold_id === threshold.threshold_id
-              ? { ...t, threshold_value: threshold.thresholdValue, name: t.name, notify_user: threshold.notify_user, recipients: threshold.recipients }
+              ? { ...t, threshold_value: threshold.thresholdValue, name: t.name, notify_user: threshold.notifyUser, recipients: threshold.recipients }
               : t
           );
         } else {
@@ -94,7 +97,7 @@ const Dashboard = ({ userId }) => {
             ...threshold,
             name: dataItems.find(item => item.data_id === threshold.dataId)?.name || "Unknown",
             threshold_value: threshold.thresholdValue || 0,
-            notify_user: threshold.notify_user,
+            notify_user: threshold.notifyUser,
             recipients: threshold.recipients || [],
           }];
         }
@@ -129,7 +132,7 @@ const Dashboard = ({ userId }) => {
             <div key={threshold.threshold_id} className="threshold-box">
               <p><strong>{threshold.name}</strong></p>
               <p><strong>Threshold:</strong> {threshold.threshold_value}%</p>
-              <p><strong>Notify Me:</strong> {threshold.notify_user ? "Yes" : "No"}</p>
+              <p><strong>Notify Me:</strong> {threshold.notifyUser ? "Yes" : "No"}</p>
               <Button onClick={() => handleEditThreshold(threshold)}>Edit</Button>
               <Button onClick={() => handleDeleteThreshold(threshold.threshold_id)}>Delete</Button>
               <Button onClick={() => handleViewRecipients(threshold.recipients)}>
