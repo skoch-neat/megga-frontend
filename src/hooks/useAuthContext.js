@@ -21,8 +21,15 @@ export const useAuthContext = () => {
   useEffect(() => {
     if (!auth.isAuthenticated || !auth.user?.profile) return;
 
-    const { email, given_name: firstName, family_name: lastName } = auth.user.profile;
-    const token = auth.user.access_token;
+    const idTokenPayload = JSON.parse(atob(auth.user.id_token.split(".")[1]));
+    const { email, given_name: firstName, family_name: lastName } = idTokenPayload;
+
+    if (!email) {
+      console.warn("Warning: ID Token is missing email.");
+      return;
+    }
+
+    const token = auth.user.id_token;
     localStorage.setItem("auth_token", token);
 
     (async () => {
