@@ -9,7 +9,7 @@ import "./ThresholdForm.css";
 const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold, thresholds, onSuccess, setViewMode, setThresholds }) => {
   const isEditing = mode === "edit";
   const [dataId, setDataId] = useState(existingThreshold?.data_id || "");
-  const [thresholdValue, setThresholdValue] = useState(existingThreshold?.threshold_value || "");
+  const [thresholdValue, setThresholdValue] = useState(existingThreshold?.threshold_value?.toString() || "0");
   const [selectedRecipients, setSelectedRecipients] = useState(existingThreshold?.recipients?.map(String) || []);
   const [notifyUser, setNotifyUser] = useState(existingThreshold?.notify_user || false);
   const [message, setMessage] = useState(null);
@@ -24,7 +24,7 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
     if (!isEditing || !existingThreshold) return false;
 
     const result =
-      parseInt(thresholdValue) === existingThreshold.threshold_value &&
+      parseFloat(thresholdValue) === existingThreshold.threshold_value &&
       notifyUser === existingThreshold.notify_user &&
       JSON.stringify([...selectedRecipients].sort()) === JSON.stringify([...existingThreshold.recipients.map(String)].sort());
     return result;
@@ -59,8 +59,8 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
       return;
     }
 
-    const parsedThreshold = parseInt(thresholdValue);
-    if (!parsedThreshold || isNaN(parsedThreshold) || parsedThreshold <= 0 || selectedRecipients.length === 0) {
+    const parsedThreshold = parseFloat(thresholdValue);
+    if (isNaN(parsedThreshold) || parsedThreshold === 0 || selectedRecipients.length === 0) {
       setMessage({ type: "error", text: "Please fill out all required fields. Threshold cannot be set to zero." });
       return;
     }
@@ -68,8 +68,8 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
     const payload = {
       userId,
       dataId: Number(dataId),
-      thresholdValue: parseInt(thresholdValue),
-      notify_user: Boolean(notifyUser),
+      thresholdValue: parseFloat(thresholdValue),
+      notifyUser: Boolean(notifyUser),
       recipients: selectedRecipients.map(Number),
     };
 
@@ -83,7 +83,7 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
         const updatedThreshold = {
           ...existingThreshold,
           thresholdValue: payload.thresholdValue,
-          notify_user: payload.notify_user,
+          notifyUser: payload.notifyUser,
           recipients: [...payload.recipients],
         };
 
@@ -149,8 +149,8 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
         label="Threshold Value (%)"
         type="number"
         value={thresholdValue}
-        onChange={(e) => setThresholdValue(e.target.value)}
-        step="1"
+        onChange={(e) => setThresholdValue(e.target.value)} // ✅ Allow negative values
+        step="0.01"
         aria-required="true"
       />
 
@@ -178,7 +178,7 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
         </label>
       </div>
 
-      <Button type="submit">
+      <Button type="submit" onClick={handleSubmit}>
         {isEditing ? "Save Changes" : "Submit New Threshold"}
       </Button>
     </form>
@@ -187,7 +187,7 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
 
 ThresholdForm.propTypes = {
   mode: PropTypes.oneOf(['create', 'edit']).isRequired,
-  userId: PropTypes.string.isRequired,
+  userId: PropTypes.number.isRequired,
   recipients: PropTypes.arrayOf(PropTypes.shape({
     recipient_id: PropTypes.number.isRequired,
     first_name: PropTypes.string.isRequired,
