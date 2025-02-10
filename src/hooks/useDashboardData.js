@@ -7,8 +7,8 @@ export const useDashboardData = (userId) => {
   const [dataItems, setDataItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [initialLoad, setInitialLoad] = useState(true);
-  const [isFetching, setIsFetching] = useState(false);
+  // const [initialLoad, setInitialLoad] = useState(true);
+  // const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     if (!userId) {
@@ -27,7 +27,7 @@ export const useDashboardData = (userId) => {
       try {
         // if (initialLoad || isFetching) setLoading(true);
         setLoading(true);
-        setIsFetching(true);
+        // setIsFetching(true);
 
         const [thresholdsRes, recipientsRes, dataRes] = await Promise.all([
           apiService.get("thresholdsForUser", userId),
@@ -36,9 +36,11 @@ export const useDashboardData = (userId) => {
         ]);
 
         if (import.meta.env.DEV) {
-          console.log("📦 Thresholds:", thresholdsRes.data);
-          console.log("📦 Recipients:", recipientsRes.data);
-          console.log("📦 Data Items:", dataRes.data);
+          console.log("✅ API Data Fetched:", {
+            thresholds: thresholdsRes.data,
+            recipients: recipientsRes.data,
+            data: dataRes.data
+          });
         }
 
         setThresholds(Array.isArray(thresholdsRes.data) ? thresholdsRes.data : []);
@@ -50,14 +52,14 @@ export const useDashboardData = (userId) => {
       } finally {
         setLoading(false);
         // setInitialLoad(false);
-        setIsFetching(false);
+        // setIsFetching(false);
       }
     });
 
     if (import.meta.env.DEV) {
       console.log("🔍 Fetching data...");
-      fetchData();
     }
+    fetchData();
   }, [userId, thresholds.length]);
 
   const availableDataItems = useMemo(() => {
