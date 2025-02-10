@@ -10,6 +10,14 @@ export const useAuthContext = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const storedUserId = localStorage.getItem("userId");
+    if (storedUserId) {
+      setUserId(storedUserId);
+    }
+  }, []);
+
+
+  useEffect(() => {
     if (!auth.isAuthenticated || !auth.user?.profile) return;
 
     const idTokenPayload = JSON.parse(atob(auth.user.id_token.split(".")[1]));
