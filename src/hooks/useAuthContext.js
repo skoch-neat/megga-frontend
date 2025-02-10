@@ -32,11 +32,13 @@ export const useAuthContext = () => {
         const { data } = await apiService.get("userByEmail", email);
         if (data?.user_id) {
           setUserId(data.user_id);
+          localStorage.setItem("user_id", data.user_id);
         } else {
           if (import.meta.env.DEV) console.log("🆕 User not found, creating:", email);
 
           const newUser = await apiService.post("users", { email, firstName, lastName });
           setUserId(newUser.data.user_id);
+          localStorage.setItem("user_id", newUser.data.user_id);
         }
       } catch (error) {
         console.error("❌ Failed to authenticate user:", error);

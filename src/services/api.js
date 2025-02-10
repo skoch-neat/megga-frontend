@@ -13,21 +13,26 @@ API.interceptors.request.use(
     const token = localStorage.getItem("auth_token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log("🔐 JWT token added to request:", token);
-      console.log("📤 Outgoing request:", config);
+      if (import.meta.env.DEV) {
+        console.log("🔐 JWT token added to request:", token);
+        console.log("📤 Outgoing request:", config);
+      }
     } else if (!hasWarnedAboutToken) {
-      console.warn("No auth token found. Requests may fail with 401 Unauthorized.");
+      if (import.meta.env.DEV) {
+        console.warn("No auth token found. Requests may fail with 401 Unauthorized.");
+      }
       hasWarnedAboutToken = true;
     }
     return config;
   },
   (error) => {
-    console.error("❌ Axios request error:", error);
+    if (import.meta.env.DEV) {
+      console.error("❌ Axios request error:", error);
+    }
     Promise.reject(error)
   }
 );
 
-// Define API endpoint paths
 const apiEndpoints = {
   users: () => "/users",
   userByEmail: (email) => `/users/${email}`,
@@ -37,7 +42,6 @@ const apiEndpoints = {
   data: () => "/data",
 };
 
-// Unified API service with dynamic endpoints
 export const apiService = {
   get: (endpoint, param) => {
     const url = apiEndpoints[endpoint](param);
