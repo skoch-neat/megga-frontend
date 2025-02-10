@@ -11,11 +11,22 @@ export const useDashboardData = (userId) => {
   const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
-    if (!userId) return;
+    if (!userId) {
+      if (import.meta.env.DEV) {
+        console.error("❌ No user ID provided.");
+      }
+      setLoading(false);
+      return;
+    }
 
-    (async () => {
+    if (import.meta.env.DEV) {
+      console.log("🔍 Fetching thresholds for userId:", userId);
+    }
+
+    const fetchData = (async () => {
       try {
-        if (initialLoad || isFetching) setLoading(true);
+        // if (initialLoad || isFetching) setLoading(true);
+        setLoading(true);
         setIsFetching(true);
 
         const [thresholdsRes, recipientsRes, dataRes] = await Promise.all([
@@ -24,26 +35,37 @@ export const useDashboardData = (userId) => {
           apiService.get("data"),
         ]);
 
-        setThresholds(thresholdsRes.data);
-        setRecipients(recipientsRes.data);
-        setDataItems(dataRes.data);
-      } catch (err) {
         if (import.meta.env.DEV) {
-          console.error("❌ API Fetch Error:", err);
+          console.log("📦 Thresholds:", thresholdsRes.data);
+          console.log("📦 Recipients:", recipientsRes.data);
+          console.log("📦 Data Items:", dataRes.data);
         }
+
+        setThresholds(Array.isArray(thresholdsRes.data) ? thresholdsRes.data : []);
+        setRecipients(Array.isArray(recipientsRes.data) ? recipientsRes.data : []);
+        setDataItems(Array.isArray(dataRes.data) ? dataRes.data : []);
+      } catch (err) {
+        console.error("❌ API Fetch Error:", err);
         setError("Failed to fetch dashboard data.");
       } finally {
         setLoading(false);
-        setInitialLoad(false);
+        // setInitialLoad(false);
         setIsFetching(false);
       }
-    })();
+    });
+
+    if (import.meta.env.DEV) {
+      console.log("🔍 Fetching data...");
+      fetchData();
+    }
   }, [userId, thresholds.length]);
 
-  const availableDataItems = useMemo(
-    () => dataItems.filter((item) => !thresholds.some((threshold) => threshold.data_id === item.data_id)),
-    [dataItems, thresholds]
-  );
+  const availableDataItems = useMemo(() => {
+    if (!Array.isArray(dataItems) || !Array.isArray(thresholds)) {
+      return [];
+    }
+    return dataItems.filter((item) => !thresholds.some((threshold) => threshold.data_id === item.data_id));
+  }, [dataItems, thresholds]);
 
   return { thresholds, recipients, dataItems, availableDataItems, loading, error, setThresholds };
 };
