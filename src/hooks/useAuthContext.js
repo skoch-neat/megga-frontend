@@ -6,16 +6,8 @@ import { apiService } from "../services/api";
 export const useAuthContext = () => {
   const auth = useAuth();
   const navigate = useNavigate();
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState(() => localStorage.getItem("userId"));
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const storedUserId = localStorage.getItem("userId");
-    if (storedUserId) {
-      setUserId(storedUserId);
-    }
-  }, []);
-
 
   useEffect(() => {
     if (!auth.isAuthenticated || !auth.user?.profile) return;
@@ -40,13 +32,13 @@ export const useAuthContext = () => {
         const { data } = await apiService.get("userByEmail", email);
         if (data?.user_id) {
           setUserId(data.user_id);
-          localStorage.setItem("user_id", data.user_id);
+          localStorage.setItem("userId", data.user_id);
         } else {
           if (import.meta.env.DEV) console.log("🆕 User not found, creating:", email);
 
           const newUser = await apiService.post("users", { email, firstName, lastName });
           setUserId(newUser.data.user_id);
-          localStorage.setItem("user_id", newUser.data.user_id);
+          localStorage.setItem("userId", newUser.data.user_id);
         }
       } catch (error) {
         console.error("❌ Failed to authenticate user:", error);
