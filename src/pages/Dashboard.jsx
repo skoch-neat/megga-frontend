@@ -8,12 +8,28 @@ import ThresholdForm from "../components/ThresholdForm";
 import "./Dashboard.css";
 
 const Dashboard = ({ userId }) => {
-  const { thresholds, recipients, dataItems, availableDataItems, loading, error, setThresholds } = useDashboardData(userId);
+  if (!userId) {
+    return <p>Loading dashboard...</p>;
+  }
+
+  if (import.meta.env.DEV) {
+    console.log("🚀 Rendering Dashboard for userId:", userId);
+  }
+
+  const { thresholds, recipients, dataItems, availableDataItems, loading, error, setThresholds } =
+    useDashboardData(userId);
   const [viewMode, setViewMode] = useState(null);
   const [editingThreshold, setEditingThreshold] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [selectedThresholdRecipients, setSelectedThresholdRecipients] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  if (import.meta.env.DEV) {
+    console.log("📦 Thresholds:", thresholds);
+    console.log(" Available Data Items:", availableDataItems);
+    console.log("Loading state:", loading);
+    console.log("Error state:", error);
+  }
 
   const handleViewRecipients = async (recipientIds) => {
     if (!recipientIds.length) {
@@ -113,7 +129,6 @@ const Dashboard = ({ userId }) => {
       <nav className="threshold-nav">
         <Button onClick={() => setViewMode("view")}>View Thresholds</Button>
 
-        {/* ✅ Hide "Create Threshold" when no available items */}
         {availableDataItems.length > 0 && (
           <Button onClick={() => setViewMode("create")}>Create Threshold</Button>
         )}
@@ -132,18 +147,18 @@ const Dashboard = ({ userId }) => {
             <div key={threshold.threshold_id} className="threshold-box">
               <p><strong>{threshold.name}</strong></p>
               <p><strong>Threshold:</strong> {threshold.threshold_value}%</p>
-              <p><strong>Notify Me:</strong> {threshold.notifyUser ? "Yes" : "No"}</p>
+              <p><strong>Notify Me:</strong> {threshold.notify_user ? "Yes" : "No"}</p>
               <Button onClick={() => handleEditThreshold(threshold)}>Edit</Button>
               <Button onClick={() => handleDeleteThreshold(threshold.threshold_id)}>Delete</Button>
               <Button onClick={() => handleViewRecipients(threshold.recipients)}>
-                View Recipients ({threshold.recipients.length}) {/* ✅ Displays recipient count */}
+                View Recipients ({threshold.recipients.length})
               </Button>
             </div>
           ))}
         </div>
-      ) : (
-        viewMode === "view" && <Message type="info">No thresholds set.</Message>
-      )}
+      ) : viewMode === "view" ? (
+        <Message type="info">No thresholds set.</Message>
+      ) : null}
 
       {(viewMode === "create" || viewMode === "edit") && (
         <ThresholdForm

@@ -3,6 +3,7 @@ import axios from "axios";
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: { "Content-Type": "application/json" },
+  withCredentials: true,
 });
 
 let hasWarnedAboutToken = false;
@@ -13,7 +14,8 @@ API.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
       if (import.meta.env.DEV) {
-        console.log("JWT token: ", token);
+        console.log("🔐 JWT token added to request:", token);
+        console.log("📤 Outgoing request:", config);
       }
     } else if (!hasWarnedAboutToken) {
       if (import.meta.env.DEV) {
@@ -23,10 +25,14 @@ API.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    if (import.meta.env.DEV) {
+      console.error("❌ Axios request error:", error);
+    }
+    Promise.reject(error)
+  }
 );
 
-// Define API endpoint paths
 const apiEndpoints = {
   users: () => "/users",
   userByEmail: (email) => `/users/${email}`,
@@ -36,7 +42,6 @@ const apiEndpoints = {
   data: () => "/data",
 };
 
-// Unified API service with dynamic endpoints
 export const apiService = {
   get: (endpoint, param) => {
     const url = apiEndpoints[endpoint](param);

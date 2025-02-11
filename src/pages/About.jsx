@@ -27,11 +27,10 @@ const About = () => (
       <li><strong>Stay Engaged</strong> – Receive notifications so you can follow up, share, and make your voice even louder.</li>
     </ol>
 
-    <h2>A Proof of Concept</h2>
+    <h2>Proof of Concept</h2>
     <p>
-      MEGGA is a <strong>proof-of-concept project</strong> focused on <strong>demonstrating the power of automated advocacy.</strong>
-      For security reasons, real-world emails are not sent to representatives. Instead, test emails are delivered via
-      <strong>Testmail.app</strong>, ensuring a <strong>safe, responsible testing environment</strong> while preserving MEGGA's core functionality.
+      MEGGA is a <strong>proof-of-concept project</strong> focused on <strong>demonstrating the power of automated advocacy. </strong>
+      For security reasons, real-world emails are not actually sent to representatives.
     </p>
 
     <h2>Join the Movement</h2>

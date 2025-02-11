@@ -112,7 +112,6 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
 
       setViewMode("view");
     } catch (err) {
-      // setMessage({ type: "error", text: "An error occurred while saving the threshold." });
       const errorMessage = err.response?.data?.message || err.message || "An error occurred while saving the threshold.";
       setMessage({ type: "error", text: errorMessage });
       if (import.meta.env.DEV) {
@@ -149,7 +148,7 @@ const ThresholdForm = ({ mode, userId, recipients, dataItems, existingThreshold,
         label="Threshold Value (%)"
         type="number"
         value={thresholdValue}
-        onChange={(e) => setThresholdValue(e.target.value)} // ✅ Allow negative values
+        onChange={(e) => setThresholdValue(e.target.value)}
         step="0.01"
         aria-required="true"
       />

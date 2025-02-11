@@ -5,7 +5,6 @@ import react from '@vitejs/plugin-react';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import * as dotenv from 'dotenv';
 
-// Load environment variables
 dotenv.config();
 
 export default defineConfig({
@@ -24,9 +23,9 @@ export default defineConfig({
   ],
   base: '/',
   build: {
-    outDir: 'dist', // Ensure built files are placed in the correct directory
-    assetsDir: 'assets', // Ensures assets (JS, CSS) are correctly referenced
-    manifest: true, // Helps Amplify properly recognize asset files
+    outDir: 'dist',
+    assetsDir: 'assets',
+    manifest: true,
     rollupOptions: {
       output: {
         entryFileNames: 'assets/[name]-[hash].js',
@@ -35,4 +34,10 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    hmr: true,
+    watch: {
+      usePolling: true,
+    }
+  }
 });

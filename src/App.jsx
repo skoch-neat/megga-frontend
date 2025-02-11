@@ -27,9 +27,13 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute>
-              <Dashboard userId={userId} />
-            </ProtectedRoute>
+            userId ? (
+              <ProtectedRoute>
+                <Dashboard userId={userId} />
+              </ProtectedRoute>
+            ) : (
+              <p>Loading user...</p>
+            )
           }
         />
         <Route path="/signout" element={<SignOut />} />
