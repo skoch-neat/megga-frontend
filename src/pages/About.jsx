@@ -29,7 +29,7 @@ const About = () => (
 
     <h2>Proof of Concept</h2>
     <p>
-      MEGGA is a <strong>proof-of-concept project</strong> focused on <strong>demonstrating the power of automated advocacy.</strong>
+      MEGGA is a <strong>proof-of-concept project</strong> focused on <strong>demonstrating the power of automated advocacy. </strong>
       For security reasons, real-world emails are not actually sent to representatives.
     </p>
 

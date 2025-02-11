@@ -2,7 +2,6 @@ import { useAuth } from "react-oidc-context";
 import { NavLink } from "react-router-dom";
 import { useTheme } from "../hooks/useTheme";
 import { Button } from "@aws-amplify/ui-react";
-// import Button from "../components/Button";
 import "./NavBar.css";
 import '@aws-amplify/ui-react/styles.css';
 

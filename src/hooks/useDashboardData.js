@@ -7,8 +7,6 @@ export const useDashboardData = (userId) => {
   const [dataItems, setDataItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // const [initialLoad, setInitialLoad] = useState(true);
-  // const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     if (!userId) {
@@ -25,9 +23,7 @@ export const useDashboardData = (userId) => {
 
     const fetchData = (async () => {
       try {
-        // if (initialLoad || isFetching) setLoading(true);
         setLoading(true);
-        // setIsFetching(true);
 
         const [thresholdsRes, recipientsRes, dataRes] = await Promise.all([
           apiService.get("thresholdsForUser", userId),
@@ -51,8 +47,6 @@ export const useDashboardData = (userId) => {
         setError("Failed to fetch dashboard data.");
       } finally {
         setLoading(false);
-        // setInitialLoad(false);
-        // setIsFetching(false);
       }
     });
 
