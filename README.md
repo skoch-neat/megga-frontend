@@ -1,49 +1,27 @@
 # MEGGA (Frontend)
 
 ## **Project Overview**
-MEGGA (Monitoring Economic Goods & Government Advocacy) is designed to automate political advocacy by monitoring changes in common household goods and economic indicators as reported by the Bureau of Labor Statistics API. Users can create thresholds, and when these are triggered, emails are automatically sent to their specified political representatives. Users can also opt in to receive an email notification when a threshold is met, encouraging further advocacy efforts.
+MEGGA (**Monitoring Economic Goods & Government Advocacy**) is designed to automate political advocacy by monitoring changes in common household goods and economic indicators as reported by the **Bureau of Labor Statistics API**. Users can create **thresholds**, and when these are triggered, emails are **automatically sent** to their specified political representatives. Users can also **opt in** to receive a notification when a threshold is met, encouraging **further advocacy efforts**.
 
 ### **Proof of Concept & Security Considerations**
 This project is a **proof of concept**, meaning that the full email automation system is not configured to send emails to actual government representatives.
 
-The MEGGA frontend is built with React and Vite, providing a user-friendly interface for authentication, data visualization, and threshold management. This application interacts with the MEGGA backend for user data and threshold updates, and it uses AWS Cognito for secure authentication.
+The MEGGA frontend is built with **React and Vite**, providing a user-friendly interface for **authentication, data visualization, and threshold management**. This application interacts with the **MEGGA backend** for user data and threshold updates and uses **AWS Cognito** for secure authentication.
 
 ---
 
-## Key Features
-
-- **Automated Political Advocacy**: Notify elected representatives when economic thresholds are triggered.
-- **User Authentication**: Secure login and token management via AWS Cognito.
-- **Threshold Management**: Create, edit, and delete thresholds tied to economic indicators.
-- **Recipient Notifications**: Users can opt to be notified when their thresholds trigger an email.
-- **Dark Mode Support**: Seamlessly toggle between light and dark themes.
-- **Responsive Interface**: Designed for ease of use across devices.
-- **Comprehensive API Integration**: Connects to backend for real-time data management.
-- **Responsive Interface**: Intuitive and minimal design.
-
----
-
-## **API Endpoints**
-The MEGGA frontend interacts with the backend via the following endpoints:
-
-### **User Endpoints**
-- `GET /users` - Retrieve all users.
-- `POST /users` - Create a new user.
-- `GET /users/{email}` - Retrieve a user by email.
-
-### **Data Endpoints**
-- `GET /data` - Retrieve all available economic indicators.
-- `GET /data/{id}` - Retrieve specific economic data.
-
-### **Threshold Endpoints**
-- `GET /users/{id}/thresholds` - Retrieve thresholds set by a specific user.
-- `POST /thresholds` - Create a new threshold.
-- `PUT /thresholds/{id}` - Update an existing threshold.
-- `DELETE /thresholds/{id}` - Delete a threshold.
-
-### **Notification & Recipients Endpoints**
-- `GET /recipients` - Retrieve a list of recipients.
-- `GET /thresholds/{id}/recipients` - Retrieve recipients for a specific threshold.
+## **Key Features**
+- **Automated Political Advocacy** - Notify elected representatives when economic thresholds are triggered.
+- **User Authentication** - Secure login and token management via AWS Cognito.
+- **Threshold Management** - Create, edit, and delete thresholds tied to economic indicators.
+- **Data Tracking & Visualization** - Fetches and displays real-time economic indicator updates.
+- **Recipient Notifications** - Users can opt to be notified when their thresholds trigger an email.
+- **Dark Mode Support** - Seamlessly toggle between light and dark themes.
+- **RESTful API Communication** - Interacts with backend services for data persistence.
+- **Responsive Interface** - Designed for ease of use across devices.
+- **CORS Support** - Configured to allow cross-origin communication with backend services.
+- **Environment Configurations** - Uses `.env` files for easy project setup.
+- **AWS Amplify Deployment** - Hosted and automatically deployed via **AWS Amplify**.
 
 ---
 
@@ -52,46 +30,46 @@ The MEGGA frontend interacts with the backend via the following endpoints:
 ```
 megga-frontend/
 ├── src/
-│   ├── components/                # Reusable UI components
-│   │   ├── Button.jsx             # Custom button component
-│   │   ├── Emoji.jsx              # Emoji helper for accessibility
-│   │   ├── FormInput.jsx          # Input field component
-│   │   ├── Message.jsx            # Displays error/success messages
-│   │   ├── NavBar.css             # Styling for navigation bar
-│   │   ├── NavBar.jsx             # Navigation bar component
-│   │   ├── RecipientsModal.css    # Styling for recipients modal
-│   │   ├── RecipientsModal.jsx    # Modal for viewing recipients
-│   │   ├── ThresholdForm.css      # Styling for threshold form
-│   │   ├── ThresholdForm.jsx      # Form for creating/editing thresholds
-│   ├── hooks/                     # Custom React hooks
-│   │   ├── useAuthContext.js      # Manages authentication state
-│   │   ├── useDashboardData.js    # Fetches and manages dashboard data
-│   │   ├── useTheme.js            # Handles dark mode toggle
-│   ├── pages/                     # Page components
-│   │   ├── About.jsx              # About page
-│   │   ├── Dashboard.css          # Styling for dashboard
-│   │   ├── Dashboard.jsx          # Main dashboard page
-│   │   ├── Login.jsx              # Login page
-│   │   ├── NotFound.jsx           # 404 page
-│   │   ├── RedirectHandler.jsx    # Handles authentication redirects
-│   │   ├── SignOut.jsx            # Handles user sign-out
-│   ├── routes/                    # Routing logic
-│   │   ├── ProtectedRoute.jsx     # Protects routes for authenticated users
-│   ├── services/                  # API and utility services
-│   │   ├── api.js                 # Axios instance and API functions
-│   ├── App.css                     # Global styling
-│   ├── App.jsx                     # Main application logic
-│   ├── index.css                   # Base styles for application
-│   ├── main.jsx                     # Entry point for React
-├── .env.example                    # Example environment configuration
-├── .gitignore                       # Git ignore rules
-├── LICENSE                          # Project license
-├── README.md                        # Project documentation
-├── eslint.config.js                  # ESLint configuration
-├── index.html                        # Root HTML file
-├── package-lock.json                  # Package lock file
-├── package.json                      # Project dependencies and scripts
-├── vite.config.js                     # Vite configuration file
+│   ├── components/
+│   │   ├── Button.jsx
+│   │   ├── Emoji.jsx
+│   │   ├── FormInput.jsx
+│   │   ├── Message.jsx
+│   │   ├── NavBar.css
+│   │   ├── NavBar.jsx
+│   │   ├── RecipientsModal.css
+│   │   ├── RecipientsModal.jsx
+│   │   ├── ThresholdForm.css
+│   │   ├── ThresholdForm.jsx
+│   ├── hooks/
+│   │   ├── useAuthContext.js
+│   │   ├── useDashboardData.js
+│   │   ├── useTheme.js
+│   ├── pages/
+│   │   ├── About.jsx
+│   │   ├── Dashboard.css
+│   │   ├── Dashboard.jsx
+│   │   ├── Login.jsx
+│   │   ├── NotFound.jsx
+│   │   ├── RedirectHandler.jsx
+│   │   ├── SignOut.jsx
+│   ├── routes/
+│   │   ├── ProtectedRoute.jsx
+│   ├── services/
+│   │   ├── api.js
+│   ├── App.css
+│   ├── App.jsx
+│   ├── index.css
+│   ├── main.jsx
+├── .env.example
+├── .gitignore
+├── LICENSE
+├── README.md
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── vite.config.js
 ```
 
 ---
@@ -99,7 +77,6 @@ megga-frontend/
 ## **Setup Instructions**
 
 ### **1. Prerequisites**
-
 Ensure you have the following installed:
 - **Node.js** (16.x or higher)
 - **npm** (8.x or higher)
@@ -123,7 +100,17 @@ cd megga-frontend
 
 ---
 
-### **3. Configure Environment Variables**
+### **3. Install Dependencies**
+
+Install the required dependencies for the project:
+
+```sh
+npm install
+```
+
+---
+
+### **4. Configure Environment Variables**
 
 Copy the provided `.env.example` file and configure your variables:
 
@@ -141,16 +128,6 @@ Copy the provided `.env.example` file and configure your variables:
 
 ---
 
-### **4. Install Dependencies**
-
-Install the required dependencies:
-
-```sh
-npm install
-```
-
----
-
 ### **5. Run the Server**
 
 To run in development mode, type:
@@ -162,6 +139,28 @@ For production usage, type:
 npm run build
 ```
 Typically the application will be available at `http://localhost:5173`, but the exact URL will be displayed after the command executes successfully.
+
+---
+
+## **API Endpoints**
+
+The MEGGA frontend interacts with the backend via the following endpoints:
+
+### User Routes
+- `POST /users` - Create a new user.
+- `GET /users/{email}` - Retrieve user by email.
+
+### Threshold Routes
+- `GET /users/{id}/thresholds` - Retrieve all thresholds for a user.
+- `POST /thresholds` - Create a new threshold.
+- `PUT /thresholds/{id}` - Update an existing threshold.
+- `DELETE /thresholds/{id}` - Remove a threshold.
+
+### Data Routes
+- `GET /data` - Retrieve all available economic indicators.
+
+### Recipient Routes
+- `GET /recipients` - Retrieve a list of recipients.
 
 ---
 
