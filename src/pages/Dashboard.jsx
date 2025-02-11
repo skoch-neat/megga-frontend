@@ -147,7 +147,7 @@ const Dashboard = ({ userId }) => {
             <div key={threshold.threshold_id} className="threshold-box">
               <p><strong>{threshold.name}</strong></p>
               <p><strong>Threshold:</strong> {threshold.threshold_value}%</p>
-              <p><strong>Notify Me:</strong> {threshold.notifyUser ? "Yes" : "No"}</p>
+              <p><strong>Notify Me:</strong> {threshold.notify_user ? "Yes" : "No"}</p>
               <Button onClick={() => handleEditThreshold(threshold)}>Edit</Button>
               <Button onClick={() => handleDeleteThreshold(threshold.threshold_id)}>Delete</Button>
               <Button onClick={() => handleViewRecipients(threshold.recipients)}>
